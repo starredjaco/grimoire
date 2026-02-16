@@ -69,19 +69,15 @@ maintainer receiving the report.
 
 Structure every PoC with these elements:
 
-**Header block (comment at top of file):**
+**Header block (comment at top of file) or comment for the test case:**
 ```
 Title:        [Short descriptive title]
-Vulnerability: [CWE ID if known, or class name]
 Affected:     [Component, version, file/endpoint]
 Impact:       [One-line impact statement]
 Author:       [Researcher name/handle]
-Date:         [Date written]
-Context:      [Bug bounty program / pentest engagement / coordinated disclosure]
 ```
 
 **Implementation guidelines:**
-
 - **Use benign payloads.** Demonstrate the vulnerability without causing harm. For example, use
   `alert(1)` or `<img src=x>` for XSS, `sleep()` for SQL injection, `id` or `whoami` for
   command injection, `127.0.0.1` for SSRF. Avoid destructive payloads.
