@@ -221,6 +221,11 @@ node inspect TARGET:9229
 # Result: full code execution in application context
 ```
 
+## Smart Contract Vulnerabilities
+
+For smart contract PoC format templates (fork test, unit test), Foundry conventions, and
+vulnerability-specific patterns, consult **`smart-contracts.md`**.
+
 ## General Format Principles
 
 Regardless of vulnerability class:

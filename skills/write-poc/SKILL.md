@@ -36,6 +36,8 @@ Before writing any code, establish the following:
 
 If any detail is unclear, ask the user before proceeding. A PoC built on incorrect assumptions wastes time.
 
+Study both the impacted code and the issue description provided by the user, make sure to understand the exploit flow deeply.
+
 ### 2. Determine PoC Approach
 
 Select the minimal demonstration that proves the vulnerability exists and conveys its impact.
@@ -53,6 +55,11 @@ what is necessary.
 | Configuration issue | Minimal config + demonstration of consequence |
 | Race condition | Concurrent request script with timing |
 | Supply chain / dependency | Dependency tree analysis + trigger |
+| Smart contract vulnerability | Fork test or unit test — ask the user (see `references/smart-contracts.md`) |
+
+When the target is a smart contract, ask the user whether to use a **fork test** (live on-chain
+state) or a **unit test** (self-contained, synthetic state) before proceeding. Consult
+**`references/smart-contracts.md`** for detailed templates, conventions, and vulnerability patterns.
 
 When multiple approaches work, prefer the one that is **simplest to reproduce** for the
 maintainer receiving the report.
@@ -141,6 +148,7 @@ Choose the implementation language based on context:
 - **JavaScript/TypeScript** — Browser-based vulnerabilities, Node.js issues, DOM-based XSS.
 - **Ruby** — Ruby/Rails-specific vulnerabilities.
 - **Go/Rust** — When the target is written in these languages and reproduction requires it.
+- **Solidity (Foundry)** — Smart contract vulnerabilities. See `references/smart-contracts.md`.
 
 Match the language to the target ecosystem when possible — a Rails developer will understand
 a Ruby PoC faster than a Python one.
@@ -155,3 +163,5 @@ For detailed patterns and format guidance, consult:
   vulnerability class
 - **`references/vulnerability-patterns.md`** — Common vulnerability patterns, root causes,
   and demonstration approaches organized by class
+- **`references/smart-contracts.md`** — Smart contract PoC approach selection, Foundry
+  templates, cheatcode conventions, and vulnerability patterns
