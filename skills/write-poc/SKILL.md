@@ -83,8 +83,12 @@ Determine the best place to put the proof of concept code if that's the case. Th
 like to extend the test suite and if this location is correct.
 
 When the target is a smart contract, ask the user whether to use a **fork test** (live on-chain
-state) or a **unit test** (self-contained, synthetic state) before proceeding. Consult
-**`references/smart-contracts.md`** for detailed templates, conventions, and vulnerability patterns.
+state) or a **unit test** (self-contained, synthetic state) before proceeding. Also determine
+whether **forge-poc-templates** (Immunefi's PoC library) would be useful — it provides base
+contracts for flash loans, reentrancy, price manipulation, and balance tracking. Always ask
+the user whether to use it, and give a recommendation based on the exploit pattern. Consult
+**`references/smart-contracts.md`** for approach selection, templates, and conventions, and
+**`references/forge-poc-templates.md`** for the forge-poc-templates API reference.
 
 **Alternative Approaches**
 
@@ -162,3 +166,6 @@ For detailed patterns and format guidance, consult:
   vulnerability class
 - **`references/smart-contracts.md`** — Smart contract PoC approach selection, Foundry
   templates, cheatcode conventions, and vulnerability patterns
+- **`references/forge-poc-templates.md`** — Immunefi's forge-poc-templates library: base
+  contracts, API reference, installation, and usage patterns for flash loan, reentrancy, and
+  price manipulation PoCs

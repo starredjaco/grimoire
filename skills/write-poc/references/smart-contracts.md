@@ -8,6 +8,30 @@ patterns, and cheatcode conventions.
 
 When the target is a smart contract, ask the user which approach to use before writing code.
 
+### forge-poc-templates
+
+Before choosing a test approach, determine whether the PoC would benefit from
+[forge-poc-templates](https://github.com/immunefi-team/forge-poc-templates/) (by Immunefi).
+This library provides base contracts for flash loans, reentrancy, price manipulation, and
+balance tracking — eliminating boilerplate for common DeFi exploit patterns.
+
+**Recommend forge-poc-templates when the exploit involves:**
+- Flash loans (Aave, Uniswap, Balancer, MakerDAO — callbacks and repayment handled automatically)
+- Reentrancy with token callbacks (ERC677, ERC777, ERC1363, ERC721, ERC1155)
+- Price oracle manipulation (Curve pools, etc.)
+- Monetary impact tracking (automatic balance snapshots and profit logging)
+
+**Do not recommend when:**
+- The PoC is a simple unit test with no DeFi interactions
+- The vulnerability is pure logic (access control, arithmetic) without callbacks or flash loans
+- Adding the dependency would complicate reproduction for the maintainer
+
+Always ask the user whether forge-poc-templates should be used, and include your recommendation
+based on the criteria above. If using forge-poc-templates, **study the repository first** —
+read the base contracts and examples before writing code. Consult
+**`references/forge-poc-templates.md`** for the full API reference, installation instructions,
+and usage patterns.
+
 ### Fork Test
 
 Runs against a forked mainnet (or testnet) using live on-chain state via

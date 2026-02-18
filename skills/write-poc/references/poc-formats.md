@@ -33,6 +33,12 @@ conventions. Consult the relevant file below when writing a PoC.
   templates, Foundry conventions, cheatcode usage, interface resolution, and attacker
   contract patterns.
 
+## Libraries
+
+- **[forge-poc-templates](forge-poc-templates.md)** — Immunefi's PoC library for smart
+  contracts. Base contracts for flash loans, reentrancy, price manipulation, and balance
+  tracking. API reference, installation, and usage patterns.
+
 ## General
 
 - **[General Format Principles](general-principles.md)** — Five core principles that apply
