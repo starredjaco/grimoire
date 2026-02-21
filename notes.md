@@ -1,3 +1,52 @@
+# Grimoire Notes 
+
+## Roadmap 
+
+skills:
+* triage 
+* proof of concept   
+* context building 
+    * maybe this skill needs to be split up (e.g. there could be a skill for building architectural context)
+* scoping 
+* flow
+* back-pressure and automation
+  * semgrep
+  * codeql 
+  * slither
+* finding
+* report 
+
+agents:
+* sigil     (general sub-agent)
+* librarian (fetches external documentation where relevant)
+* imp       (reviews findings from external audits that might provide relevant information)
+
+## Findings and Other Artifacts
+
+There should be a directory where various artifacts can be put. Things like findings, static analysis modules and 
+proof of concepts.
+
+This should be in a git repository separate from the code under test. We should probably have claude point out on the initial
+scope building that this is the case and that  if we're running within the git context of the system under test that the user 
+might want to change directories / directory structure. 
+
+```
+findings/
+detect/
+poc/
+tmp/ <-- for temp scripts / pocs that are being worked on
+```
+
+
+## Context and Delegation 
+
+Context is really important and should be kept clean. 
+
+As much as possible sub-agents should be used for different tasks and subtasks. 
+
+For example a flow should be explored by a sub-agent with only the necessary context.
+
+
 ## Backpressure 
 
 Only allow autonomy with back-pressure methods available. 
@@ -90,6 +139,8 @@ It might even be useful to have the agent itself produce gadgets, or incorporate
 
 A nice thing is that gadgets are generally expressable as unit tests.
 
+---
+
 ## Grimoire Identify
 
 alternative naming: detect magic
@@ -153,7 +204,20 @@ Once the initial context is estableshed we can dive deeper, and look at *Archite
 At this point it might be important to point out that though it is possible to point out that the audit process often starts with building context,
 it is also true that you never really stop building context throughout the audit process. 
 
-Prioritization
+Once there is a good global overview of the primary flows and architecture it's important to contextualize one more thing. 
+
+The crown jewels.
+
+In the end we don't necessarily care about finding bugs, we care about finding bugs that get us the crown jewels. 
+For smart contracts this usually means some form of loss of funds. For many other applications, it might mean account take over 
+remote code execution, privilege escalation / loss of confidentiality. 
+
+Identify the flows and components that actually interact with the crown jewels. The functions transferring funds, the logic
+related to authentication. 
+
+It's important to not go too wild. It's often not very suseful that a c program might be vulnerable to binary exploitation. 
+
+The goal here is to point out the application specific sensitive flows and components. 
 
 
 ### Agent Instructions
