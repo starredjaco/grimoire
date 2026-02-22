@@ -34,6 +34,26 @@ alchemy:
 * I'm thinking about centering this around pi which is aimed at being extensible
 * can build features like alloyed agents 
 
+# What is Grimoire?
+
+Grimoire is a set of skills, agents and tools designed with the specific intention of leverage.
+
+It's singular goal is to increase the quality, speed and depth of security research. 
+
+A novice user can easily get started using grimoire by installing it. Grimoire is engineered to steer agents in the right direction 
+for security research related tasks. As a result, you can simply ask the agent research related questions like you would a plain claude, 
+codex, .. setup.
+
+That said there are things to learn about grimoire.
+
+## Summoning
+Here is your first lesson: *summoning* 
+
+You're probably familiar with the claude `/init` command, which explores a codebase and builds a CLAUDE.md file with a digest for future 
+agents on how to interact with the codebase.
+
+Dive deeper here: [[summon]]
+
 # Findings and Other Artifacts
 
 There should be a directory where various artifacts can be put. Things like findings, static analysis modules and 
