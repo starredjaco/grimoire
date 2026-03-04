@@ -9,5 +9,5 @@ Agents
 * [[scribe]]
 
 Concepts:
-* [[hypothesis_generation]]
+* [[hypothesis generation]]
 * [[the_original_sin]]

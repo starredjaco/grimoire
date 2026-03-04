@@ -1,4 +1,34 @@
-# Scribe 
+The scribe and your [[personal grimoire]] bring a level of autonomy to grimoire which is similar to that provided by autonomous audit agents. 
+
+Instead of looking at audit agents as something that builds a report independently I see such autonomy as something that can raise the baseline of audits. 
+
+There are two related observations:
+* During audits you'll often encounter bugs that could've been found using some form of automation. 
+* Every audit will miss some bugs.
+
+Implementing automation can help catch bugs and reduce the chance of missing them. I say "can" because false positives are a big problem and require time to sift through. Time which you might have otherwise used to find more bugs.
+
+A perfect solution for security research is a set of automatic detectors with a low false positive rate which finds some bugs. 
+
+## Baseline 
+
+The goal of autonomous detection in this case is not completeness.
+
+It is not important that our detectors find everything. We'll also be reviewing the codebase ourselves after all. Our goal is to sift out as many bugs as possible before we start. That way all our effort goes into finding hard to discover or automate bugs.
+
+This paradigm will always match and generally outperform an autonomous audit agent.
+
+We lean on autonomous reasoning where it increases leverage, but lean on manual / semi-manual research where it outperforms. 
+
+## Automation
+
+Interestingly, these observations have held for the longest time, and were true before the rise of agents. I have worked on various automation tools myself employing symbolic execution and static analysis to automatically discover some groups of bugs. 
+
+
+
+
+
+
 I see full autonomous agents mostly as something to raise the baseline rather than as real tools that help me during an audit. 
 
 However, that sentiment is not entirely correct. I often find that during audits there are issues that could've been found
