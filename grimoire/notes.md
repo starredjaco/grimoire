@@ -48,6 +48,8 @@ Also, the scribe functionality is kind of close to something that you could buil
 
 How does consolidation work between global scribe artifacts and local / project specific scribe artifacts?
 
+I would like people to be able to change and or improve their local copy of grimoire so it adapts to their style of working. Not entirely sure how to structure that when grimoire is a plugin.
+
 ---
 
 # Findings and Other Artifacts

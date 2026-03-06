@@ -1,6 +1,6 @@
 Context is incredibly important, and loading the right information into context can significantly improve output quality.
 
-As a result I often find myself asking an agent to build context before being able to dive into the task/ question that is really at hand. Though some skills already exists to build context around functions and classes, they still require a relatively verbose prompt.
+I often find myself asking an agent to build context before being able to dive into the task/ question that is really at hand. Though some skills already exists to build context around functions and classes, they still require a relatively verbose prompt.
 
 As an example:
 `study file x, y, z and the flow of activity A to where it results in effect B`.

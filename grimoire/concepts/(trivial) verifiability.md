@@ -1,11 +1,13 @@
-In science a common concept is that of *falsifiability* and *verifiability*. It relates to the quality of a hypothesis/ question, whether it can easily (dis-)proven.
+In science common concepts are that of *falsifiability* and *verifiability*. These relates to the quality of a claim/hypothesis and whether it can easily be tested or (dis-)proven.
 
-Falsification and verification are not the same, and their distinction is incredibly important when you're using an agent in auditing a codebase.
+Falsification and verification are not the same, and their distinction is incredibly important when you're using an agent in auditing.
 
-You can ask questions like: `find me all locations in the code where user input is stored`. (easy to disprove a claim by finding a counter-example)
-You can also ask questions like: `is there a location in the code that does input sanitation`. (easy to prove a claim by checking the example given)
+You can ask questions like: find me all locations in the code where user input is stored. (easy to disprove a claim by finding a counter-example)
+
+You can also ask questions like: is there a location in the code that does input sanitation. (easy to prove a claim by checking the example given)
 
 These are very different and you should pick your questions carefully!
+
 ## why?
 
 Agents are smart but unreliable.
