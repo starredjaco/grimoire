@@ -7,12 +7,12 @@ During an audit you'll have many hypotheses about potential vulnerabilities. You
 
 The familiar also works in close collaboration with [[agents/sigil]] agents. Sigils are agents which come up with vulnerability hypotheses on their own. The familiar agent also triages their findings before they're surfaced to you.
 
-### Customization
+## Customization
 * you can chose the type of animal you want your familiar to be
 * you can also chose the name of your prime familiar
 
 example: a raven named huginn 
-### Notes
+## Notes
 * familiar agents are responsible for quality control and supervision and should use high quality models and high levels of reasoning ability
 * familiars should collaborate with [[librarian]] to find external references relevant to a given finding
 * familiars generally have a type of supervisory role / quality management role
