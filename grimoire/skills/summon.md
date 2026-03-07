@@ -83,7 +83,8 @@ project/
     grimoire/
         findings/ <- the findings during this audit 
         spells/   <- scripts proof of concepts and static analysis modules
-        tomes/    <- documentation and learnings 
+        tomes/    <- documentation and learnings
+        tmp/      <- directory for temporary files and scripts
     GRIMOIRE.md   <- main contextual map
 ```
 

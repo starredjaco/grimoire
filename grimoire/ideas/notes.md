@@ -20,7 +20,6 @@ skills:
 
 agents:
 * sigil     (general sub-agent)
-* sage      (back-pressure agent that double checks and gives a second opinion)
 * librarian (fetches external documentation where relevant)
 * imp       (reviews findings from external audits that might provide relevant information)
 * scribe    (manages the personal spellbook)

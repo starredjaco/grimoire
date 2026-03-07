@@ -1,7 +1,6 @@
 Gnomes are are worker agents that run within an isolated context.
 
-Your agents will leverage gnome's for execution of clearly defined tasks. Gnomes will be provided with context (which files to read) and a plan that they need to execute. Gnomes are smart but stick to the plan. They report back implementation status when done `in progress| completed | done`, with a comprehensive summary of changes, decisions and potential blockers.
-
+Your agents will leverage gnome's for execution of clearly defined tasks. Gnomes will be provided with context (which files to read) and a plan that they need to execute. Gnomes are smart but stick to the plan. 
  
 ## Example Uses
 
@@ -12,3 +11,4 @@ Gnomes are also useful for building a [[proof of concept]]. This allows us to ke
 
 ## Notes
 * gnomes use a good tasking model like sonnet
+* gnommes report back implementation status when done `in progress| completed | done`, with a comprehensive summary of changes, decisions and potential blockers.
