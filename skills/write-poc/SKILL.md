@@ -1,12 +1,15 @@
 ---
 name: Write Proof of Concept
+user_invocable: true
 description: >-
   This skill should be used when the user asks to "write a proof of concept",
   "create a PoC", "demonstrate a vulnerability", "write an exploit PoC",
   "show this bug is exploitable", "prove this vulnerability exists",
-  "PoC for CVE", "demonstrate the impact", or needs to create a working
-  demonstration of a security vulnerability for responsible disclosure
-  and remediation purposes.
+  "PoC for CVE", "demonstrate the impact", "exploit this bug",
+  "build an exploit", "write a Foundry test for this bug",
+  "create a forge test PoC", or needs to create a working demonstration
+  of a security vulnerability for responsible disclosure and remediation
+  purposes.
 ---
 
 # Write Proof of Concept
@@ -19,6 +22,36 @@ to understand, reproduce, and fix security issues. Every PoC produced under this
 assumes an authorized security research context — pentesting engagements, bug bounty
 programs, coordinated disclosure, or CTF challenges.
 
+## Philosophy
+
+This skill exists because unstructured "write me a PoC" prompts succeed roughly 60% of
+the time. The opinionated structure here — fixed phases, explicit vulnerability-class
+references, approach confirmation gates — raises that to approximately 90% one-shot
+success by front-loading the decisions that cause agent confusion.
+
+**A PoC is proof, not a suggestion.** It transforms a hypothesis ("I think this is
+exploitable") into a fact ("here is the exploit running"). Theoretical descriptions are
+insufficient. If it cannot be run and observed to succeed, it is not done.
+
+**Minimum viable proof.** Demonstrate the issue exists and its impact. Do not build a full
+exploit toolkit, do not chain unrelated bugs, do not add features beyond what proves the
+point.
+
+**Benign payloads only.** `alert(1)`, `sleep()`, `id`, `whoami`. Never destructive. This
+is non-negotiable.
+
+**Parameterized targets.** `localhost`, `$TARGET`, environment variables. Never hardcoded
+production URLs. The maintainer must be able to point the PoC at their own test
+environment.
+
+**Impact communication.** Especially for smart contracts: demonstrate monetary impact.
+Measure balances before and after. Print profit. Reviewers and triagers respond to
+concrete numbers, not abstract descriptions.
+
+> You are responsible for your PoCs. Agents make mistakes. Always review the generated
+> code, verify it demonstrates what you think it demonstrates, and never run it against
+> production without explicit authorization.
+
 ## Workflow Checklist
 
 When this skill is activated, create a todo list from the following steps. Mark each task
@@ -30,7 +63,7 @@ sections below.
 - [ ] 2. Define exploit flow — formulate goal condition, determine mono/poly flow, sketch steps if multi-step. Confirm with user.
 - [ ] 3. Determine PoC approach — choose test case vs script, for smart contracts decide fork/unit test and whether to use forge-poc-templates. Confirm with user.
 - [ ] 4. Write the PoC — implement with header block, section comments, benign payloads, clear output, and all implementation guidelines. Confirm with user.
-- [ ] 5. Review before delivery — verify checklist: no destructive payloads, demonstrates the vuln, clear comments, clear output, complete reproduction steps.
+- [ ] 5. Review before delivery — verify checklist: no destructive payloads, demonstrates the vuln, clear comments, clear output, complete reproduction steps. Confirm with user.
 ```
 
 ---
@@ -58,7 +91,7 @@ Check in with the user before continuing!
 
 ### 2. Exploit Flow, Kill Chain and Scope
 
-Together with the user you've built a solid understanding of a bug, now you have to establish how the flaw can be demonstrated.
+With the vulnerability details established, determine how the flaw can be demonstrated.
 
 *goal condition*
 
@@ -87,6 +120,24 @@ Check in with the user, have them review the flow you designed and leverage thei
 Select the minimal demonstration that proves the vulnerability exists and conveys its impact.
 Follow the principle of **minimum viable proof** — demonstrate the issue without going beyond
 what is necessary.
+
+**Identify the vulnerability class from step 1 and consult the matching reference file:**
+
+| Vulnerability Class | Reference File |
+|---|---|
+| SQL injection, XSS, SSRF, auth bypass, IDOR | `references/web-application-vulns.md` |
+| Buffer overflow, use-after-free, format string | `references/memory-corruption.md` |
+| Weak randomness, ECB, padding oracle, hardcoded secrets | `references/crypto-vulns.md` |
+| TOCTOU, concurrent request races | `references/race-conditions.md` |
+| Business logic flaws | `references/logic-flaws.md` |
+| Misconfiguration, exposed services | `references/config-issues.md` |
+| Smart contract vulnerabilities | `references/smart-contracts.md` |
+| Smart contract (flash loan, reentrancy, price manipulation) | `references/forge-poc-templates.md` |
+| Other / unlisted | `references/general-principles.md` |
+
+Read the matching reference file before choosing an approach — it contains templates and
+conventions specific to the vulnerability class. For general format principles that apply
+to all classes, also consult `references/general-principles.md` and `references/poc-formats.md`.
 
 Primary PoC approaches:
 * Test Case (preferred)
@@ -150,8 +201,8 @@ This means natspec for solidity, javadoc for java, etc.
   confirmed: server returned injected content` or `[-] Target does not appear vulnerable`.
 - **Keep dependencies minimal.** Prefer standard libraries. If external dependencies are
   required, document them in a requirements section.
-- **Testcase Success.** When implementing proof of concepts as a testcase testcase success
-  should indicate that the proof of concept workred.
+- **Test case success.** When implementing a PoC as a test case, test passage should
+  indicate exploit success.
 - **Monetary Impact.** If the flaw allows extraction of funds such as for smart contract
   vulnerabilities then clearly demonstrate profitability of an attack. Measure attacker 
   balance before and after the proof of concept and determine profit. Print this profit so 
@@ -168,7 +219,8 @@ Important: Never run the PoC against a production environment without asking the
 
 **Confirm**
 
-Confirm that the whole PoC is implemented.
+Check in with the user. Walk them through the completed PoC and confirm it matches the
+agreed approach, covers the full exploit flow, and produces clear output.
 
 ### 5. Review Before Delivery
 
@@ -180,16 +232,12 @@ Before finalizing, verify:
 - [ ] Output clearly indicates success or failure
 - [ ] Reproduction steps are complete and ordered
 
+Check in with the user for final approval before delivery.
+
 ## Additional Resources
 
-### Reference Files
+All reference files are listed in the vulnerability-class-to-reference table in step 3.
+Consult the matching reference before choosing an approach.
 
-For detailed patterns and format guidance, consult:
-
-- **`references/poc-formats.md`** — Detailed output format templates and examples for each
-  vulnerability class
-- **`references/smart-contracts.md`** — Smart contract PoC approach selection, Foundry
-  templates, cheatcode conventions, and vulnerability patterns
-- **`references/forge-poc-templates.md`** — Immunefi's forge-poc-templates library: base
-  contracts, API reference, installation, and usage patterns for flash loan, reentrancy, and
-  price manipulation PoCs
+For worked examples demonstrating each PoC approach (curl, Python script, Foundry unit
+test, Foundry fork test with forge-poc-templates), see the `examples/` directory.
