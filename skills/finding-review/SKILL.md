@@ -12,18 +12,13 @@ user_invocable: true
 
 # Finding Review
 
-Review and harden existing security findings against best practices — checking clarity,
-accuracy, fact-correctness, and guideline conformance.
+Review and harden existing security findings against best practices.
 
-## Philosophy
+## Prerequisites
 
-Even experienced researchers benefit from systematic review. This skill catches common
-mistakes: titles that miss the impact, descriptions that assume reader context,
-recommendations that are too prescriptive, and references that don't exist. The review is
-structured and checklist-driven, not subjective.
-
-> **You are responsible for your findings.** Agents make mistakes. Always perform thorough
-> review of references, proof of concepts, and claims before submitting.
+Before starting, read `skills/finding/SKILL.md` to understand finding structure, best
+practices, and conventions. That skill defines the format, quality standards, and principles
+that this workflow evaluates against.
 
 ## Workflow
 
@@ -31,12 +26,19 @@ When this skill is activated, create a todo list from the following steps. Mark 
 in_progress before starting it and completed when done.
 
 ```
+- [ ] 0. Load finding knowledge (read skills/finding/SKILL.md)
 - [ ] 1. Load and validate finding
 - [ ] 2. Analyze content
 - [ ] 3. Present review and offer updates
 ```
 
 ---
+
+### 0. Load Finding Knowledge
+
+Read `skills/finding/SKILL.md` to internalize finding structure, best practices, and
+conventions. This is required before proceeding — the base skill defines the standards you
+will evaluate against.
 
 ### 1. Load and Validate Finding
 
@@ -48,12 +50,11 @@ bash skills/finding/scripts/validate-finding.sh <path-to-finding>
 ```
 
 Report any schema violations — missing frontmatter fields, missing required sections,
-invalid severity values. Consult `skills/finding/references/finding-format.md` for the
-complete schema specification.
+invalid severity values.
 
 ### 2. Analyze Content
 
-Evaluate the finding against each guideline in
+Evaluate the finding against the guidelines in the finding skill and
 `skills/finding/references/finding-best-practices.md`:
 
 **Title** — does it satisfy the where/how/what rule? If not, propose an improved title.
@@ -98,20 +99,3 @@ If yes, apply edits to the finding file. Re-run validation. Present the updated 
 Suggest follow-ups:
 - `/finding-dedup` if the project has multiple findings
 - [[write-poc]] if the PoC section has a placeholder
-
----
-
-## Guidelines
-
-- **Self-contained findings.** Every finding must be understandable without access to the
-  codebase or other findings.
-- **Severity is an estimate.** Do not overstate confidence. Justify with one sentence.
-- **Recommendations for maintainers, not researchers.** State what to fix, not how to
-  rewrite the code. Never suggest non-trivial implementations.
-- **Out of scope is acceptable.** If the fix requires complex redesign, say so.
-- **Degrade gracefully.** Familiar and librarian integrations are stubs. Note what was
-  skipped, never pretend it was done.
-- **Fact-check everything.** Never refer to a best practice, standard, or prior finding
-  that does not actually exist.
-- **Validate after changes.** Re-run `skills/finding/scripts/validate-finding.sh` after
-  applying any updates.

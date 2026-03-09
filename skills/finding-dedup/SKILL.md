@@ -12,22 +12,13 @@ user_invocable: true
 
 # Finding Dedup
 
-Identify and resolve duplicate or overlapping security findings — keeping the finding set
-clean without losing information.
+Identify and resolve duplicate or overlapping security findings.
 
-## Philosophy
+## Prerequisites
 
-During an audit, it is common to document the same issue from different angles, or to find
-overlapping vulnerabilities that could be consolidated. This skill systematically compares
-all findings and classifies them into two categories:
-
-- **Duplicate** — identical root cause, same component, same impact. One can be deleted
-  without losing any information.
-- **Similar** — overlapping root cause or component but different scope or impact. Cannot
-  delete without information loss. May benefit from merging or cross-referencing.
-
-The researcher always decides. This skill proposes actions but never deletes or merges
-without explicit confirmation.
+Before starting, read `skills/finding/SKILL.md` to understand finding structure and
+conventions. That skill defines the format and standards that this workflow relies on for
+comparison.
 
 ## Workflow
 
@@ -35,12 +26,18 @@ When this skill is activated, create a todo list from the following steps. Mark 
 in_progress before starting it and completed when done.
 
 ```
+- [ ] 0. Load finding knowledge (read skills/finding/SKILL.md)
 - [ ] 1. Index and compare findings
 - [ ] 2. Present duplicates and confirm actions
 - [ ] 3. Execute and report
 ```
 
 ---
+
+### 0. Load Finding Knowledge
+
+Read `skills/finding/SKILL.md` to internalize finding structure and conventions. This is
+required before proceeding — the base skill defines the format you will compare against.
 
 ### 1. Index and Compare Findings
 
@@ -91,17 +88,3 @@ bash skills/finding/scripts/index-findings.sh
 ```
 
 Suggest `/finding-review` on any merged findings to verify quality.
-
----
-
-## Guidelines
-
-- **Duplicate vs similar is about information loss.** Can you delete one without losing
-  anything? Duplicate. Would you lose scope, detail, or a different perspective? Similar.
-- **User confirms every action.** No automated deletion or merging. The skill proposes,
-  the researcher decides.
-- **The more complete finding survives.** When deleting a duplicate, keep the one with
-  better documentation, a PoC reference, or more detailed explanation.
-- **Merged findings need review.** Always suggest `/finding-review` after a merge.
-- **Group by type first.** For large finding sets, only compare within the same type
-  to avoid false matches across unrelated vulnerability classes.

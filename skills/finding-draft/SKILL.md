@@ -3,33 +3,21 @@ name: Finding Draft
 description: >-
   This skill should be used when the user says "draft a finding", "write a finding",
   "create a finding", "document a vulnerability", "write up this bug", "finding template",
-  "report a vulnerability", "/finding-draft", "/finding", or wants to construct a new
-  structured security finding from a vulnerability observation. Findings are the core
-  deliverable of security research — structured markdown files that prove a vulnerability
-  exists and tell the recipient what to fix. This skill is NOT for reviewing existing
-  findings (use /finding-review) or deduplicating findings (use /finding-dedup).
+  "report a vulnerability", "/finding-draft", or wants to construct a new structured
+  security finding from a vulnerability observation. This skill is NOT for reviewing
+  existing findings (use /finding-review) or deduplicating findings (use /finding-dedup).
 user_invocable: true
 ---
 
 # Finding Draft
 
-Draft structured security findings from vulnerability observations — transforming raw
-research into reviewable, verifiable finding files.
+Draft structured security findings from vulnerability observations.
 
-## Philosophy
+## Prerequisites
 
-Findings are what security research produces. A finding is not a code review comment or a
-chat message — it is a standalone document that proves a vulnerability exists and tells the
-recipient exactly what to fix. Every finding must be understandable by someone who has never
-seen the codebase.
-
-A finding should never suggest non-trivial code changes. Security researchers are external
-reviewers; by suggesting complex implementations we become biased. If the fix requires
-architectural redesign, say so and move on. The recommendation states *what* to fix, not
-*how* to rewrite the code.
-
-> **You are responsible for your findings.** Agents make mistakes. Always perform thorough
-> review of references, proof of concepts, and claims before submitting.
+Before starting, read `skills/finding/SKILL.md` to understand finding structure, best
+practices, and conventions. That skill defines the format, frontmatter schema, severity
+scale, and key principles that this workflow applies.
 
 ## Workflow
 
@@ -37,6 +25,7 @@ When this skill is activated, create a todo list from the following steps. Mark 
 in_progress before starting it and completed when done.
 
 ```
+- [ ] 0. Load finding knowledge (read skills/finding/SKILL.md)
 - [ ] 1. Gather context
 - [ ] 2. Construct title
 - [ ] 3. Estimate severity and classify type
@@ -46,6 +35,12 @@ in_progress before starting it and completed when done.
 ```
 
 ---
+
+### 0. Load Finding Knowledge
+
+Read `skills/finding/SKILL.md` to internalize finding structure, best practices, and
+conventions. This is required before proceeding — the base skill defines the format you
+will produce.
 
 ### 1. Gather Context
 
@@ -65,80 +60,51 @@ Check in with the user before continuing.
 
 ### 2. Construct Title
 
-Build the title following the **where / how / what** rule:
-
-- **Where** — the affected component, route, function, or contract
-- **How** — the mechanism or flaw type (missing auth, reentrancy, unchecked return, etc.)
-- **What** — the impact (account takeover, fund theft, DoS, etc.)
-
-Good: `"Theft of deposited funds via reentrancy in Vault.withdraw() due to state update after external call"`
-
-Bad: `"Missing check"`, `"Reentrancy"`, `"Incorrect implementation"`
-
-See `skills/finding/references/finding-best-practices.md` for detailed title guidelines with
-more examples.
+Build the title following the **where / how / what** rule from the finding skill.
 
 Present the candidate title to the user for confirmation.
 
 ### 3. Estimate Severity and Classify Type
 
 **Severity** — propose one of: Critical, High, Medium, Low, Informational. Provide a
-one-sentence justification. See `skills/finding/references/finding-format.md` for severity
-scale definitions.
+one-sentence justification. Use the severity scale from the finding skill.
 
-**Type** — classify the flaw (e.g., reentrancy, access-control, dos, integer-overflow,
-logic-error, memory-corruption, injection, information-disclosure). See
-`skills/finding/references/finding-format.md` for the recommended type taxonomy.
+**Type** — classify the flaw. Consult `skills/finding/references/finding-format.md` for the
+recommended type taxonomy.
 
-**Context** — list the affected source files with optional line numbers. These populate the
-`context` frontmatter field.
+**Context** — list the affected source files with optional line numbers for the `context`
+frontmatter field.
 
 Present severity, type, and context to the user for confirmation.
 
 ### 4. Draft Sections
 
-Write each section following the templates in `skills/finding/references/finding-format.md`
-and the guidelines in `skills/finding/references/finding-best-practices.md`:
+Write each section following the format from the finding skill and the detailed guidelines
+in `skills/finding/references/finding-best-practices.md`:
 
-**## Description** (mandatory)
-2-4 paragraphs. State the vulnerability, affected component, preconditions, and impact.
-Written for someone unfamiliar with the codebase. Include code snippets where they help
-comprehension. The description should stand alone — a reader must fully understand the
-threat without reading other sections.
+**## Description** (mandatory) — 2-4 self-contained paragraphs covering component, flaw,
+preconditions, and impact.
 
-**## Details** (optional)
-Include only when the vulnerability mechanism is non-obvious or the exploit involves
-multiple steps. Technical walkthrough with code references. Omit if the Description already
-covers the mechanism adequately.
+**## Details** (optional) — only when the mechanism is non-obvious or multi-step.
 
-**## Proof of Concept**
-If a PoC file exists, insert `@path/to/poc-file` (path relative to project root). If no
-PoC exists, note that one should be created with [[write-poc]] and leave a placeholder.
+**## Proof of Concept** — `@path/to/poc-file` if one exists, placeholder otherwise.
 
-**## Recommendation** (mandatory)
-Objective fix direction. One-sentence fixes are preferred. Never suggest non-trivial code
-changes — security researchers are external reviewers. If the fix requires complex redesign,
-state: *"The design space for a solution to this flaw is out of scope for this report."*
+**## Recommendation** (mandatory) — objective fix direction. Never non-trivial code changes.
 
-**## References** (optional)
-Numbered citations: `[1] description — URL or source`. Include relevant standards, prior
-findings, documentation. *(Librarian agent not yet available — note that reference discovery
-was skipped. The user can add references manually.)*
+**## References** (optional) — numbered citations. *(Librarian agent not yet available.)*
 
-Consult `skills/finding/examples/reentrancy-finding.md` for a complete finding with all
-sections, and `skills/finding/examples/access-control-finding.md` for a minimal valid
-finding.
+Consult `skills/finding/examples/reentrancy-finding.md` for a complete finding and
+`skills/finding/examples/access-control-finding.md` for a minimal valid finding.
 
 Present the drafted content to the user for review before writing the file.
 
 ### 5. Write Finding File
 
 Determine the target directory:
-- `grimoire/findings/` for findings from manual audit research (default)
-- `grimoire/sigil-findings/` for findings from automated tooling or sigil agents
+- `grimoire/findings/` for manual audit research (default)
+- `grimoire/sigil-findings/` for automated tooling or sigil agents
 
-Generate the filename: kebab-case derived from the title, `.md` extension. If the filename
-already exists in the target directory, append a numeric suffix (`-2`, `-3`, etc.).
+Generate the filename per the filing conventions in the finding skill.
 
 Write the complete finding file with frontmatter and all sections.
 
@@ -156,25 +122,3 @@ Based on the finding:
 - If related findings may exist: suggest `/finding-dedup`
 - If cartography is missing for affected flows: suggest [[cartography]]
 - If the pattern could be generalized into a check: suggest [[checks]]
-
----
-
-## Guidelines
-
-- **Self-contained findings.** Every finding must be understandable without access to the
-  codebase or other findings.
-- **Severity is an estimate.** Do not overstate confidence. Justify with one sentence.
-- **Recommendations for maintainers, not researchers.** State what to fix, not how to
-  rewrite the code. Never suggest non-trivial implementations.
-- **Out of scope is acceptable.** If the fix requires complex redesign, say so.
-- **Use `@path` for PoC references.** Never inline large code blocks in findings. Reference
-  the PoC file instead.
-- **Degrade gracefully.** Familiar and librarian integrations are stubs. Note what was
-  skipped, never pretend it was done.
-- **Audit vs sigil findings.** Manual research goes in `grimoire/findings/`. Automated tool
-  output goes in `grimoire/sigil-findings/`.
-- **Unique filenames.** Kebab-case derived from title, unique within the target directory.
-- **Validate before committing.** Run `skills/finding/scripts/validate-finding.sh` on every
-  new finding.
-- **Fact-check everything.** Never refer to a best practice, standard, or prior finding
-  that does not actually exist.
