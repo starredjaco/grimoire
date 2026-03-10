@@ -65,6 +65,11 @@ Select the **single most important item** from the Priority Queue section. This 
 top item — the one with the highest leverage, fewest blockers, and clearest spec. If the
 top item has unmet dependencies that are also in the queue, implement the dependency first.
 
+Only select from the Priority Queue — these are implementable items (skills, agents,
+infrastructure). The Cross-Cutting Adoption section contains concepts and flows which are
+not standalone work items; their recommendations are folded into the tasks of implementable
+items they touch.
+
 Announce the selected item and briefly explain why it's the right choice before proceeding.
 
 ### 1. Deep Study Phase
