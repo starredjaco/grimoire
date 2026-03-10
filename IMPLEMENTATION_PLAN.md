@@ -7,17 +7,17 @@ Generated: 2026-03-09
 Items with remaining work, sorted by priority (highest first).
 
 ### 1. agent:sigil
-- **Status:** not_implemented
+- **Status:** partial
 - **Spec detail:** detailed
 - **Spec:** `grimoire/agents/sigil.md`
 - **Dependencies:** skill:checks (done), agent:familiar (for triage)
 - **Tasks:**
-  1. Create sigil agent definition and prompt (single-context vulnerability hunter)
-  2. Implement summon → sigil spawning logic
-  3. Build check-based sigil abstraction for deterministic findings
-  4. Implement variant-sigil for recurring bug patterns (post-finding)
-  5. Implement super-sigil pattern (semgrep/slither runners spawning validation sigils)
-  6. Design sigil → familiar triage coordination
+  1. ~~Create sigil agent definition and prompt (single-context vulnerability hunter)~~ DONE
+  2. Implement summon → sigil spawning logic (requires summon update)
+  3. ~~Build check-based sigil abstraction for deterministic findings~~ DONE (Mode 1 step 3)
+  4. ~~Implement variant-sigil for recurring bug patterns (post-finding)~~ DONE (Mode 2)
+  5. Implement super-sigil pattern (semgrep/slither runners spawning validation sigils) — blocked on semgrep/slither skills
+  6. Design sigil → familiar triage coordination — blocked on agent:familiar
 
 ### 2. agent:familiar
 - **Status:** not_implemented
@@ -190,6 +190,7 @@ Items that work but need structural improvements.
 - **infra:cartography-directory** — Fully specified with format, indexing script, and examples.
 - **skill:review-cartography** — Production-ready. SKILL.md (6-step workflow with subagent decomposition for independent verification). references/cartography-format.md (symlink to cartography skill), references/overlap-detection.md (>40% threshold formalization, 3-tier overlap classification). examples/cartography-review-example.md (before/after review cycle with 4 common issues). scripts/validate-cartography.sh (frontmatter, sections, file existence, reciprocal link checks) + scripts/find-overlaps.sh (pairwise component comparison with configurable threshold). Full spec coverage, 0 debt.
 - **skill:gc-cartography** — Production-ready. SKILL.md (6-step workflow with user confirmation gates) updated with explicit pointers to reference docs and explicit file paths. references/merge-decisions.md (decision framework: merge-when/keep-separate criteria, primary flow selection, ambiguous case handling) + references/overlap-metrics.md (overlap formula, 4-tier classification, subset detection, cluster detection, metric limitations). examples/gc-before-after.md (complete worked example: two overlapping vault flows merged with conditional section, cross-reference cleanup). scripts/detect-overlaps.sh (wraps review-cartography's find-overlaps.sh, adds subset/cluster detection and primary flow suggestion) + scripts/merge-flows.sh (structural merge: frontmatter union, section merging, conditional section generation) + scripts/update-references.sh (stale link replacement with reciprocal link checking) + scripts/validate-gc.sh (post-merge integrity: runs validate-cartography.sh, checks dangling references, verifies completeness). Full spec coverage (6/6), 0 debt.
+- **agent:sigil (core)** — Single-context vulnerability hunter agent. `agents/sigil.md` with agent frontmatter (name, description with trigger phrases, tools: Read/Grep/Glob/Bash). System prompt covers three modes: Mode 1 (single sigil — 7-step hypothesis-driven hunt with GRIMOIRE.md consultation, check integration, finding output), Mode 2 (variant sigil — pattern generalization and full-codebase scan), Mode 3 (super sigil — stubbed, blocked on semgrep/slither skills). Strategy section covers hypothesis-driven hunting, check integration, external context via librarian, and scope discipline. Output format with per-finding detail and hunt summary. Constraints enforce evidence-only assertions, one-vector-per-invocation, benign payloads, parameterized targets. Familiar triage and scribe integration noted as future work. 16/24 spec requirements covered; 8 deferred to dependent components (summon spawning, familiar triage, scribe/gnome integration, super-sigil tooling). Remaining tasks: summon integration (#2), super-sigil (#5), familiar coordination (#6).
 - **agent:librarian** — External research agent. `agents/librarian.md` with agent frontmatter (name, description with trigger phrases, tools: Read/Grep/Glob/Bash/WebSearch/WebFetch). System prompt covers two modes (directed question, generic study), 6-tier source priority (specs → repos → security KBs → audits → local grimoire → web), citation format, and constraints (no file mods, no code gen, citation required). Plugin.json updated with `"agents": "auto"`. Placeholder references updated in finding-draft, finding-review, checks, and finding-best-practices. context7/exa omitted (MCP services not bundled; WebSearch covers same ground). 12/16 spec requirements covered; 4 gaps are low-severity (familiar/autonomous-discovery agents not yet implemented, context7/exa are environment-specific MCP configs).
 
 ## Needs Spec Work
