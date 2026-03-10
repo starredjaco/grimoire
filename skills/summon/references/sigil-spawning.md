@@ -72,15 +72,16 @@ No spellbook checks available. As findings accumulate during this engagement, us
 checks skill to codify vulnerability patterns. Re-run sigil spawning after building checks.
 ```
 
-## Future: Familiar Integration
+## Familiar Integration
 
-When the familiar agent is implemented, step 9 will change:
+After sigil results are collected, route them through the familiar agent for triage:
 
-1. Sigils spawn as before
-2. Instead of presenting findings directly, route all findings to familiar
-3. Familiar triages each finding (verify, dismiss, or mark uncertain)
-4. Only triaged findings are presented to the user
+1. Sigils spawn as before and write findings to `grimoire/sigil-findings/`
+2. Invoke the familiar agent in batch triage mode (Mode 2) on `grimoire/sigil-findings/`
+3. The familiar independently verifies each finding — confirming, adjusting severity,
+   marking uncertain, or dismissing with evidence
+4. Dismissed findings are moved to `grimoire/sigil-findings/dismissed/` for audit trail
+5. Only confirmed and uncertain findings are presented to the user
 
-The insertion point is after "Collect and present results" — replace direct presentation
-with familiar invocation. The sigil spawning, batching, and result collection logic stays
-the same.
+The sigil spawning, batching, and result collection logic stays the same. The familiar
+adds a verification pass between collection and presentation.

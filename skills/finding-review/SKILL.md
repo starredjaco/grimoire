@@ -75,8 +75,9 @@ and preconditions?
 
 **References** — are all cited references real and relevant? Are claims fact-checked?
 
-**Familiar agent check** — *(Not yet available. Note: "Issue validity check skipped —
-familiar agent not yet implemented.")*
+**Familiar agent check** — Invoke the familiar agent in finding triage mode (Mode 1) on
+the finding being reviewed. Include the familiar's verdict (Confirmed, Severity Adjusted,
+Uncertain, or Dismissed) and its counter-arguments in the review output.
 
 **Librarian agent check** — Use the librarian agent to verify cited references exist and
 are accurate. Ask the librarian to search for additional relevant references (prior findings

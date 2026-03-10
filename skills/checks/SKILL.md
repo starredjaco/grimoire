@@ -171,8 +171,8 @@ For each finding, include:
 - Assessed severity and confidence
 - Brief description
 
-Note: the Familiar agent (planned, not yet implemented) will handle triage in the future.
-For now, present findings directly to the user for review.
+After presenting findings, suggest invoking the familiar agent to triage them. The familiar
+independently verifies each finding and filters false positives before the user acts on them.
 
 ### 8. Suggest Follow-ups
 

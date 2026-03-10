@@ -49,8 +49,9 @@ Verify the workspace:
 - Check whether `grimoire/findings/` exists. Create it if not.
 
 Gather vulnerability context:
-- If triage context exists from the familiar agent, use it. *(Familiar agent not yet
-  available — skip this and note it was skipped.)*
+- If triage context exists from the familiar agent, use it. Invoke the familiar agent
+  in finding triage mode (Mode 1) on the vulnerability context to get a triage assessment
+  — this helps calibrate severity and confirms the finding is worth drafting.
 - Otherwise, ask the user to describe: **what component** is affected, **what goes wrong**,
   and **what the impact is**.
 - Search for existing PoC artifacts that relate to this vulnerability. If found, note the

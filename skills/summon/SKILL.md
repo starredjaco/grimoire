@@ -348,9 +348,11 @@ Checks run: [N]  |  Findings: [N]  |  Dismissed: [N]
 
 Group findings by severity (Critical/High first).
 
-**Note:** The familiar agent is not yet implemented. Findings have not been triaged for false
-positives. Review each finding before acting on it. When the familiar agent ships, this step
-will route findings through familiar for triage before presenting them.
+**Familiar Triage.** Invoke the familiar agent in batch triage mode (Mode 2) on
+`grimoire/sigil-findings/`. The familiar will independently verify each finding, dismiss
+false positives (moving them to `grimoire/sigil-findings/dismissed/`), and adjust severity
+where warranted. Present the familiar's triage summary to the user instead of raw sigil
+results.
 
 **Update GRIMOIRE.md.**
 

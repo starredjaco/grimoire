@@ -194,9 +194,10 @@ Summary at end of hunt:
   `id`, or similar benign markers. Never destructive commands.
 - **Parameterized targets.** Use localhost and variables in any example commands. Never
   hardcode production URLs.
-- **Familiar triage (future).** When the Familiar agent is implemented, all sigil findings
-  will route through Familiar for triage before being presented. For now, findings go
-  directly to the user.
+- **Familiar triage.** When invoked as part of a sigil swarm (summon step 9) or autonomous
+  discovery flow, all findings are routed to the Familiar agent for triage before being
+  presented to the user. The Familiar independently verifies each finding, dismisses false
+  positives, and adjusts severity where warranted.
 - **Scribe integration (future).** When the Scribe agent is implemented, confirmed findings
   will be candidates for automated detection module creation. For now, suggest check creation
   via the checks skill as the lightweight equivalent.
