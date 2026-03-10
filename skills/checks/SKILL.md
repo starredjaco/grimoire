@@ -181,8 +181,8 @@ Based on results, suggest:
 - **[[write-poc]]** — for confirmed high-severity findings that need proof-of-concept
 - **[[cartography]]** — for flows that surfaced during checking and are worth documenting
 - **Create more checks** — if patterns suggest related issues not covered by existing checks
-- **Scribe automation** — note that validated patterns could become detection modules when the
-  Scribe agent is implemented
+- **Scribe distill** — invoke `/scribe-distill` to encode validated patterns into detection
+  modules for future audits
 
 ---
 

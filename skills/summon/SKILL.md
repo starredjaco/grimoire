@@ -275,8 +275,12 @@ If no spellbook exists yet:
 - Note this in GRIMOIRE.md under Automation
 - Note that automation modules can be built from findings as the engagement progresses
 
-The scribe agent is planned but not yet implemented. Do not attempt to invoke it. Simply note
-in GRIMOIRE.md that detection modules will be added as findings accumulate.
+If the researcher has a personal grimoire (`~/.grimoire/sigils/`), list what's available and
+suggest running the Scribe GC skill (`/scribe-gc` with scope "both") to check for duplicates
+between personal and project-local sigils before applying them.
+
+Note in GRIMOIRE.md under Automation that new detection modules can be distilled from findings
+as the engagement progresses using the Scribe agent (`/scribe-distill`).
 
 ### 9. Spawn Sigil Swarm
 

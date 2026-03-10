@@ -198,6 +198,6 @@ Summary at end of hunt:
   discovery flow, all findings are routed to the Familiar agent for triage before being
   presented to the user. The Familiar independently verifies each finding, dismisses false
   positives, and adjusts severity where warranted.
-- **Scribe integration (future).** When the Scribe agent is implemented, confirmed findings
-  will be candidates for automated detection module creation. For now, suggest check creation
-  via the checks skill as the lightweight equivalent.
+- **Scribe integration.** Confirmed findings are candidates for automated detection module
+  creation via the Scribe agent. Suggest invoking `/scribe-distill` after confirmed findings
+  to encode the vulnerability pattern as a reusable detection module.

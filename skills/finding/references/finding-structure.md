@@ -77,8 +77,9 @@ lists specific files; cartography provides the broader flow context.
 ### Checks and Sigils
 
 Confirmed findings are candidates for generalization into checks (via [[checks]]) or
-detection modules (via the scribe agent, when available). A finding answers "what went
-wrong here"; a check answers "where else might this go wrong."
+detection modules (via [[scribe-distill]]). A finding answers "what went wrong here";
+a check answers "where else might this go wrong." The Scribe agent assesses automation
+feasibility and creates the appropriate detection module type.
 
 ### GRIMOIRE.md
 

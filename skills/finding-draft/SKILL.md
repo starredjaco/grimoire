@@ -125,3 +125,5 @@ Based on the finding:
 - If related findings may exist: suggest `/finding-dedup`
 - If cartography is missing for affected flows: suggest [[cartography]]
 - If the pattern could be generalized into a check: suggest [[checks]]
+- If the finding represents an automatable pattern: suggest [[scribe-distill]] to distill
+  it into a reusable detection module
