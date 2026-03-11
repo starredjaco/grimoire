@@ -88,7 +88,7 @@ Then work naturally — Grimoire's skills trigger from context:
 "Check for duplicates"                     → finding-dedup
 ```
 
-Learn more about grimoire by reading [docs](grimoire/concepts/what\ is\ grimoire.md) 
+Learn more about grimoire by reading [docs]("grimoire/concepts/what\ is\ grimoire.md") 
 
 ## Project Structure
 
