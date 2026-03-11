@@ -37,7 +37,7 @@ are designed to just *work* within whatever workflow you follow.
 Grimoire is built on a few hard convictions from real-world security research:
 
 - **Leverage over automation.** Grimoire provides skills that amplify operator skill, though some automation is present this is just to give you space for more research.
-- **Ergonomics** Agents are already quite useful, Grimoire provides skills (e.g. cartography) that make using agents for auditing feel like a breeze.
+- **Ergonomics** Agents are already quite useful, Grimoire provides skills (e.g. cartography) that fine tune agent behaviour to be more adjusted to auditing workflows.
 - **Not getting in your way** Grimoire takes the base agent experience and makes it more useful for auditing wihout getting in your way.
 
 ### Alpha 
