@@ -14,7 +14,6 @@
   <a href="#installation"><img src="https://img.shields.io/badge/Claude_Code-Plugin-8B5CF6?style=flat-square" alt="Claude Code Plugin" /></a>
   <img src="https://img.shields.io/badge/version-0.1.0-blue?style=flat-square" alt="Version 0.1.0" />
   <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/vuln_classes-20%2B-critical?style=flat-square&color=dc2626" alt="20+ vulnerability classes" />
 </p>
 
 ---
