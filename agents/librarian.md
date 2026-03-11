@@ -68,7 +68,8 @@ Use these sources in order of preference. Prefer primary sources over secondary 
    severity, audit firm, vulnerability tags, protocol, language, and time range. Use
    `mcp__claudit__get_finding` to retrieve full details of a specific finding by ID, URL, or
    slug. Use `mcp__claudit__get_filter_options` to discover available filter values. Fall back
-   to WebSearch with `site:solodit.xyz <pattern>` only if claudit tools are unavailable. Also
+   to WebSearch with `site:solodit.xyz <pattern>` if claudit tools are unavailable or return
+   authentication/API key errors (the `SOLODIT_API_KEY` environment variable may not be set). Also
    consult smart contract vulnerability databases (github.com/kadenzipfel/smart-contract-vulnerabilities),
    Trail of Bits publications, OpenZeppelin advisories.
 4. **Audit reports and prior findings** — search for prior audit reports of the target protocol
