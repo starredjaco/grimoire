@@ -3,7 +3,9 @@ export interface IconSet {
   model: string;
   folder: string;
   branch: string;
+  branchDirty: string;
   context: string;
+  cost: string;
   cache: string;
   input: string;
   auto: string;
@@ -11,26 +13,55 @@ export interface IconSet {
 
 export const SEP_DOT = " · ";
 
-// Nerd Font icons
+// Thinking level icons — eye opening progression
+export interface ThinkingIcons {
+  minimal: string;
+  low: string;
+  medium: string;
+  high: string;
+  xhigh: string;
+}
+
+const NERD_THINKING: ThinkingIcons = {
+  minimal: "󰈈",       // nf-md-eye_off — closed
+  low: "󰋑",           // nf-md-eye_outline — barely open
+  medium: "󰊠",        // nf-md-ghost — seeing
+  high: "󰛂",          // nf-md-eye_check — wide open
+  xhigh: "󱟱",         // nf-md-eye_arrow_right — all-seeing
+};
+
+const ASCII_THINKING: ThinkingIcons = {
+  minimal: "○",
+  low: "◔",
+  medium: "◑",
+  high: "◕",
+  xhigh: "◉",
+};
+
+// Nerd Font icons — alchemy/magic theme
 const NERD_ICONS: IconSet = {
-  grimoire: "\uF06D",       // nf-fa-fire (🔥)
-  model: "\uEC19",          // nf-md-chip
-  folder: "\uF115",         // nf-fa-folder_open
-  branch: "\uF126",         // nf-fa-code_fork
-  context: "\uE70F",        // nf-dev-database
-  cache: "\uF1C0",          // nf-fa-database
-  input: "\uF090",          // nf-fa-sign_in
-  auto: "\u{F0068}",        // nf-md-lightning_bolt
+  grimoire: "\u{F00BD}",  // nf-md-book_open — grimoire
+  model: "✧",           // sparkle
+  folder: "󰉋",          // nf-md-folder
+  branch: "󰘬",          // nf-md-source_branch — clean
+  branchDirty: "󰊢",     // nf-md-git — dirty/volatile
+  context: "󱩃",         // nf-md-flask_round_bottom — flask filling up
+  cost: "󰖺",            // nf-md-scale_balance — scales
+  cache: "󱋊",           // nf-md-scroll — stored knowledge
+  input: "󰁍",           // nf-md-arrow_down
+  auto: "\u{F0068}",    // nf-md-lightning_bolt
 };
 
 // ASCII/Unicode fallback icons
 const ASCII_ICONS: IconSet = {
   grimoire: "⚗",
-  model: "◈",
-  folder: "📁",
+  model: "✧",
+  folder: "~",
   branch: "⎇",
+  branchDirty: "⎇",
   context: "◫",
-  cache: "cache",
+  cost: "⚖",
+  cache: "§",
   input: "in:",
   auto: "⚡",
 };
@@ -51,19 +82,14 @@ const ASCII_SEPS: SeparatorChars = {
   thinRight: "|",
 };
 
-/** Detect Nerd Font support */
-export function hasNerdFonts(): boolean {
-  if (process.env.POWERLINE_NERD_FONTS === "1") return true;
-  if (process.env.POWERLINE_NERD_FONTS === "0") return false;
-  if (process.env.GHOSTTY_RESOURCES_DIR) return true;
-  const term = (process.env.TERM_PROGRAM || "").toLowerCase();
-  return ["iterm", "wezterm", "kitty", "ghostty", "alacritty"].some(t => term.includes(t));
+export function getIcons(): IconSet {
+  return NERD_ICONS;
 }
 
-export function getIcons(): IconSet {
-  return hasNerdFonts() ? NERD_ICONS : ASCII_ICONS;
+export function getThinkingIcon(level: string): string | undefined {
+  return (NERD_THINKING as Record<string, string>)[level];
 }
 
 export function getSeparatorChars(): SeparatorChars {
-  return hasNerdFonts() ? NERD_SEPS : ASCII_SEPS;
+  return NERD_SEPS;
 }

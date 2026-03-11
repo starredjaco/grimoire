@@ -35,8 +35,8 @@ const DEFAULT_COLORS: Required<ColorScheme> = {
   separator: "dim",
 };
 
-// Separator color (ANSI 256 gray)
-const SEP_ANSI = ansi.getFgAnsi256(244);
+// Box/separator color — Catppuccin Mocha Mauve
+const SEP_ANSI = ansi.getFgAnsi(203, 166, 247); // #cba6f7
 
 function isHexColor(color: ColorValue): color is `#${string}` {
   return typeof color === "string" && color.startsWith("#");

@@ -2,7 +2,7 @@ import { basename } from "node:path";
 import type { RenderedSegment, SegmentContext, SemanticColor } from "./types.js";
 import type { SegmentId } from "./types.js";
 import { fg, applyColor } from "./colors.js";
-import { getIcons } from "./icons.js";
+import { getIcons, getThinkingIcon } from "./icons.js";
 
 function color(ctx: SegmentContext, semantic: SemanticColor, text: string): string {
   return fg(ctx.theme, semantic, text, ctx.colors);
@@ -46,11 +46,13 @@ const SEGMENTS: Record<SegmentId, { render(ctx: SegmentContext): RenderedSegment
     render(ctx) {
       const level = ctx.thinkingLevel || "off";
       if (level === "off") return { content: "", visible: false };
+      const icon = getThinkingIcon(level);
       const labels: Record<string, string> = {
         minimal: "min", low: "low", medium: "med", high: "high", xhigh: "xhigh",
       };
       const label = labels[level] || level;
-      return { content: color(ctx, "thinking", `think:${label}`), visible: true };
+      const content = icon ? `${icon} ${label}` : label;
+      return { content: color(ctx, "thinking", content), visible: true };
     },
   },
 
@@ -85,7 +87,8 @@ const SEGMENTS: Record<SegmentId, { render(ctx: SegmentContext): RenderedSegment
 
       const isDirty = staged > 0 || unstaged > 0 || untracked > 0;
       const branchColor: SemanticColor = isDirty ? "gitDirty" : "gitClean";
-      let content = color(ctx, branchColor, withIcon(icons.branch, branch));
+      const branchIcon = isDirty ? icons.branchDirty : icons.branch;
+      let content = color(ctx, branchColor, withIcon(branchIcon, branch));
 
       const indicators: string[] = [];
       if (opts.showUnstaged !== false && unstaged > 0)
@@ -123,10 +126,11 @@ const SEGMENTS: Record<SegmentId, { render(ctx: SegmentContext): RenderedSegment
 
   cost: {
     render(ctx) {
+      const icons = getIcons();
       const { cost } = ctx.usageStats;
       if (!cost && !ctx.usingSubscription) return { content: "", visible: false };
       const display = ctx.usingSubscription ? "(sub)" : `$${cost.toFixed(2)}`;
-      return { content: color(ctx, "cost", display), visible: true };
+      return { content: color(ctx, "cost", withIcon(icons.cost, display)), visible: true };
     },
   },
 
