@@ -14,7 +14,7 @@ import { getVibe } from "./messages.js";
 // ═══════════════════════════════════════════════════════════════════════════
 
 const SEGMENTS_LEFT: SegmentId[] = [
-  "grimoire", "model", "thinking", "path", "git", "context_pct", "cache_read", "cost",
+  "grimoire", "model", "thinking", "path", "context_pct", "cache_read",
 ];
 
 const SEGMENT_OPTIONS = {
