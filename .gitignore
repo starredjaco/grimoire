@@ -3,3 +3,6 @@ marker-groups
 .pi
 .claude/settings.local.json
 .superset/*
+**/.venv
+**/.python-version
+**/uv.lock
