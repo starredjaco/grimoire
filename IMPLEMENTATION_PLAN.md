@@ -6,14 +6,13 @@ Generated: 2026-03-13
 
 Items with remaining work, sorted by priority (highest first).
 
-### — Skills & Agents —
-
-### 2. skill:semgrep
+### — Skills & Agents -
+### 3. skill:semgrep
 - **Status:** not_implemented
-- **Spec detail:** sketch
+- **Spec detail:** partial
 - **Spec:** `grimoire/skills/sigils/semgrep.md`
 - **Dependencies:** None
-- **Why #2:** Primary backpressure enforcement tool. Unblocks agent:sigil Mode 3 (super-sigil) — semgrep runners spawning validation sigils. Gnome agent already has a "build semgrep rule" mode providing a clear integration point.
+- **Why #3:** Primary backpressure enforcement tool. Unblocks agent:sigil Mode 3 (super-sigil) — semgrep runners spawning validation sigils. Gnome agent already has a "build semgrep rule" mode providing a clear integration point.
 - **Tasks:**
   1. Create `skills/semgrep/` directory with SKILL.md
   2. Build references covering rule anatomy, testing, and rule merging guidance
@@ -21,9 +20,9 @@ Items with remaining work, sorted by priority (highest first).
   4. Wire into gnome Mode 2 (build semgrep rule) as the primary skill reference
   - *Cross-cutting:* Add backpressure guidance — when a check makes a completeness claim, suggest creating a semgrep rule for enforcement
 
-### 3. skill:slither
+### 4. skill:slither
 - **Status:** not_implemented
-- **Spec detail:** sketch
+- **Spec detail:** partial
 - **Spec:** `grimoire/skills/sigils/slither.md`
 - **Dependencies:** None
 - **Tasks:**
@@ -32,15 +31,15 @@ Items with remaining work, sorted by priority (highest first).
   3. Create worked examples
   4. Wire into gnome Mode 3 (build slither detector) as the primary skill reference
 
-### 4. agent:sigil-super (Mode 3)
+### 5. agent:sigil-super (Mode 3)
 - **Status:** not_implemented
 - **Spec detail:** sketch
 - **Spec:** `grimoire/agents/sigil.md` ("Super Sigils" section)
-- **Dependencies:** skill:semgrep (#2), skill:slither (#3)
+- **Dependencies:** skill:semgrep (#3), skill:slither (#4)
 - **Tasks:**
   1. Implement super-sigil pattern: tool runner that runs semgrep/slither once, then spawns individual validation sigils per finding
 
-### 5. skill:summon — terminology reconciliation
+### 6. skill:summon — terminology reconciliation
 - **Status:** implemented (terminology drift)
 - **Spec detail:** detailed
 - **Spec:** `grimoire/skills/summon.md`
@@ -51,7 +50,7 @@ Items with remaining work, sorted by priority (highest first).
   3. Add `tomes/` to the spec's directory structure if it is intended to be canonical
   4. Consider auto-including personal grimoire sigils in the swarm (currently only suggests scribe-gc)
 
-### 6. infra:personal-grimoire — full structure
+### 7. infra:personal-grimoire — full structure
 - **Status:** partial (referenced via mkdir -p, no initialization)
 - **Spec detail:** sketch
 - **Spec:** `grimoire/concepts/personal grimoire.md`, `grimoire/agents/scribe.md`
@@ -61,7 +60,7 @@ Items with remaining work, sorted by priority (highest first).
   2. Create initialization workflow (currently relies on scattered `mkdir -p` across skills)
   3. Implement end-of-audit merge as a concrete workflow step in scribe-distill or standalone skill
 
-### 7. infra:spellbook — terminology reconciliation
+### 8. infra:spellbook — terminology reconciliation
 - **Status:** partial (conceptual alias for personal grimoire)
 - **Spec detail:** partial
 - **Spec:** `grimoire/agents/scribe.md`
@@ -70,7 +69,7 @@ Items with remaining work, sorted by priority (highest first).
   1. Clarify terminology: is "spellbook" the umbrella concept (project-local + personal grimoire) or specifically the personal grimoire?
   2. Add user-facing explanation of spellbook concept to a shared reference
 
-### 8. infra:tomes — content lifecycle
+### 9. infra:tomes — content lifecycle
 - **Status:** partial (directory created by summon, no management skill)
 - **Spec detail:** sketch
 - **Spec:** `grimoire/skills/summon.md`, `grimoire/ideas/todo.md`
@@ -83,7 +82,7 @@ Items with remaining work, sorted by priority (highest first).
 
 ### — Flows —
 
-### 9. flow:finding-discovery — wire scribe→variant loop
+### 10. flow:finding-discovery — wire scribe→variant loop
 - **Status:** partially_adopted
 - **Spec detail:** partial
 - **Spec:** `grimoire/flows/finding discovery.md`
@@ -94,7 +93,7 @@ Items with remaining work, sorted by priority (highest first).
   3. Add explicit "run new check against codebase immediately" step to scribe-distill
   4. Consider post-finding hook that prompts researcher to distill the pattern
 
-### 10. flow:autonomous-discovery — standalone sigil invocation
+### 11. flow:autonomous-discovery — standalone sigil invocation
 - **Status:** partially_adopted (wired in summon step 9, but no mid-engagement access)
 - **Spec detail:** partial
 - **Spec:** `grimoire/flows/autonomous discovery.md`
@@ -106,7 +105,7 @@ Items with remaining work, sorted by priority (highest first).
 
 ### — Concepts —
 
-### 11. concept:context-building — gadgets implementation
+### 12. concept:context-building — gadgets implementation
 - **Status:** not_implemented (gadgets concept completely absent)
 - **Spec detail:** partial
 - **Spec:** `grimoire/concepts/context building.md`
@@ -119,17 +118,17 @@ Items with remaining work, sorted by priority (highest first).
   5. Extend scribe-distill to produce gadget entries alongside checks and knowledge artifacts
   6. Consider gadget storage location: `grimoire/tomes/gadgets/` or `~/.grimoire/gadgets/`
 
-### 12. concept:backpressure — enforcement guidance
+### 13. concept:backpressure — enforcement guidance
 - **Status:** adopted (sigil agent uses it as core principle), partial (enforcement tooling)
 - **Spec detail:** detailed
 - **Spec:** `grimoire/concepts/backpressure.md`
-- **Dependencies:** skill:semgrep (#2), skill:slither (#3) for full enforcement
+- **Dependencies:** skill:semgrep (#3), skill:slither (#4) for full enforcement
 - **Tasks:**
   1. Create shared reference doc `backpressure-methods.md` listing when to use semgrep/codeql/slither vs agentic checks
   2. Add to checks design-principles: warning that grep results are not exhaustive; suggest static analysis rule when making completeness claims
   3. Add to summon: explicit backpressure check before recommending autonomous findings
 
-### 13. concept:trivial-verifiability — falsifiable vs verifiable distinction
+### 14. concept:trivial-verifiability — falsifiable vs verifiable distinction
 - **Status:** adopted (core principle), partial (nuanced distinction)
 - **Spec detail:** detailed
 - **Spec:** `grimoire/concepts/(trivial) verifiability.md`
@@ -139,7 +138,7 @@ Items with remaining work, sorted by priority (highest first).
   2. Add to cartography/summon: guidance on using non-verifiable queries as exploration tools while treating output as radioactive
   3. Frame goal condition as "testable hypothesis" in write-poc steps 2-3
 
-### 14. concept:hypothesis-generation — seeded/unseeded guidance
+### 15. concept:hypothesis-generation — seeded/unseeded guidance
 - **Status:** adopted (core), partial (associative mode absent)
 - **Spec detail:** detailed
 - **Spec:** `grimoire/concepts/hypothesis generation.md`
@@ -150,7 +149,7 @@ Items with remaining work, sorted by priority (highest first).
   3. Add to sigil: "If you discover tangential issues, note briefly and suggest spawning a separate sigil"
   4. Consider lightweight hook in write-poc/cartography that surfaces related vulnerability patterns from spellbook
 
-### 15. concept:original-sin — explicit in skills
+### 16. concept:original-sin — explicit in skills
 - **Status:** adopted (implicit through confirmation gates)
 - **Spec detail:** detailed
 - **Dependencies:** None
@@ -162,17 +161,17 @@ Items with remaining work, sorted by priority (highest first).
 
 | Concept/Flow | Adoption | Touches | Recommendations |
 |---|---|---|---|
-| **concept:trivial-verifiability** | adopted | write-poc, familiar, sigil, checks | Add falsifiable-vs-verifiable distinction (#13) |
+| **concept:trivial-verifiability** | adopted | write-poc, familiar, sigil, checks | Add falsifiable-vs-verifiable distinction (#14) |
 | **concept:agent-context** | adopted | All agents | Context hygiene thoroughly practiced |
 | **concept:what-is-grimoire** | adopted | Plugin design broadly | Consider orientation mechanism for new users |
-| **concept:personal-grimoire** | adopted | scribe, scribe-distill, summon | End-of-audit merge not concrete (#6) |
+| **concept:personal-grimoire** | adopted | scribe, scribe-distill, summon | End-of-audit merge not concrete (#7) |
 | **concept:don't-get-in-the-way** | adopted | All skills/agents | "Exploration over stored summaries" not explicitly stated |
-| **concept:the-original-sin** | partially_adopted | All skills/agents | Not named; missing from mechanical skills (#15) |
-| **concept:backpressure** | partially_adopted | sigil (core principle), checks, write-poc | Semgrep/slither needed for enforcement (#12) |
-| **concept:hypothesis-generation** | partially_adopted | write-poc, cartography, sigil, familiar | No associative surfacing; no ralph loop (#14) |
-| **concept:context-building** | partially_adopted | summon, cartography, sigil, write-poc | **Gadgets completely missing** (#11) |
-| **flow:autonomous-discovery** | partially_adopted | sigil, familiar, librarian, gnome, scribe | No standalone mid-engagement sigil invocation (#10) |
-| **flow:finding-discovery** | partially_adopted | finding-draft, scribe-distill, sigil | scribe→variant loop not wired (#9) |
+| **concept:the-original-sin** | partially_adopted | All skills/agents | Not named; missing from mechanical skills (#16) |
+| **concept:backpressure** | partially_adopted | sigil (core principle), checks, write-poc | Semgrep/slither needed for enforcement (#13) |
+| **concept:hypothesis-generation** | partially_adopted | write-poc, cartography, sigil, familiar | No associative surfacing; no ralph loop (#15) |
+| **concept:context-building** | partially_adopted | summon, cartography, sigil, write-poc | **Gadgets completely missing** (#12) |
+| **flow:autonomous-discovery** | partially_adopted | sigil, familiar, librarian, gnome, scribe | No standalone mid-engagement sigil invocation (#11) |
+| **flow:finding-discovery** | partially_adopted | finding-draft, scribe-distill, sigil | scribe→variant loop not wired (#10) |
 
 ## Implementation Debt
 
@@ -254,3 +253,4 @@ Items with status `implemented` and no remaining tasks.
 - **concept:what-is-grimoire** — Covered by README.md and plugin design.
 - **concept:agent-context** — Subagent patterns used throughout all implemented skills/agents.
 - **concept:don't-get-in-the-way** — Exploration-first approach in cartography and summon.
+- **skill:annotation** — Python CLI (python-fire + tree-sitter) for @audit annotation discovery. SKILL.md + 1 reference + 1 example + find-annotations.py script. First tool-backed skill. Full spec coverage. Establishes the Python CLI pattern for future tool-backed skills.
