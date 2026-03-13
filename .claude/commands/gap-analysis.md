@@ -278,7 +278,15 @@ order. This includes `not_implemented`, `partial`, `shallow`, `stale`, and `impl
 items with non-empty task lists. Items with spec_detail `sketch` go in a separate
 unprioritized bucket — they need spec work before they can be planned.
 
-For the remaining items, evaluate and sort by:
+For the remaining items, apply a two-level sort:
+
+**First: sort by item type tier.** Skills and agents always come before flows, and flows
+always come before concepts. This reflects that concrete, buildable components are more
+actionable than workflow descriptions, which in turn are more actionable than design
+principles. Infrastructure items are sorted alongside the tier of their closest dependency
+(e.g. infrastructure supporting a skill sorts with skills).
+
+**Second: within each tier, sort by:**
 
 1. **Clarity** — Is the spec detailed enough to implement without guessing? Prefer items
    where the grimoire/ spec clearly describes what the skill/agent should do.
@@ -295,10 +303,12 @@ For the remaining items, evaluate and sort by:
 4. **Independence** — Can this be implemented without requiring other unimplemented features
    first?
 
-Cross-cutting items (concepts and flows) are NOT prioritized as buildable items. Their
-adoption recommendations are folded into the tasks of the implementable items they touch.
-For example, if concept:backpressure recommends "add backpressure guidance to write-poc
-phase 3", that becomes a task on skill:write-poc, not a standalone work item.
+Cross-cutting items (concepts and flows) that have remaining adoption tasks ARE included in
+the priority queue, but always after all skills/agents (and after flows, for concepts). Their
+adoption recommendations should also be folded into the tasks of the implementable items they
+touch. For example, if concept:backpressure recommends "add backpressure guidance to write-poc
+phase 3", that becomes BOTH a task on skill:write-poc AND appears as a standalone entry in the
+concept tier of the priority queue.
 
 ### 5. Present Results
 
