@@ -56,3 +56,14 @@ The core goal of the `cartography` skill is to enable ergonomic context (re-) bu
 It's okay if there is some manual effort involved in establishing a context for the first time, but we need to avoid repeating such work because it's expensive.
 
 
+## Specification
+
+### Swarm Indexing
+The first time a user uses the cartography skill to build a map (cartography file) they provide a high level description of the flow / topic that the map is for, they generally also provide a few pointers to files that should be reviewed for pointers.
+
+The agent should take multiple approaches to build out the map:
+1. *control-flow* - study the user provided files and follow the callgraph to find potentially relevant code
+2. *swarm* - study the description of the user provided flow, asking clarifying questions if necessary, and use 100 sub-agents to explore the codebase for code related to the map's topic.
+
+
+
