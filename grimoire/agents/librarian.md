@@ -42,6 +42,14 @@ libraries:
 
 Though not implemented yet we're actively researching efficient information retrieval methods including vector databases.
 
+### Initialize
+
+The user can use the `librarian-initialize` skill to automatically setup the library directory with an empty libraries yaml file.
+
+### Add Library
+
+The user can use the `modify-library` skill to add, remove or change a library.
+
 ## Sources
 
 Librarian usually builds on the following sources:
