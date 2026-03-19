@@ -63,7 +63,25 @@ git clone https://github.com/JoranHonig/grimoire.git
 claude --plugin-dir /path/to/grimoire
 ```
 
-No dependencies. No build step. No configuration. Skills and agents auto-discover via the plugin manifest.
+Skills and agents auto-discover via the plugin manifest. Some features require API keys:
+
+| Service | Key | Purpose |
+|---------|-----|---------|
+| [Solodit](https://solodit.xyz) | `SOLODIT_API_KEY` | Audit findings search via claudit |
+| [Context7](https://context7.com/dashboard) | `CONTEXT7_API_KEY` | Library documentation lookups |
+
+Set these in your Claude Code settings (`~/.claude/settings.json`):
+
+```json
+{
+  "env": {
+    "SOLODIT_API_KEY": "your-key-here",
+    "CONTEXT7_API_KEY": "your-key-here"
+  }
+}
+```
+
+Both are optional — the librarian will fall back to web search if they are not set. You can also export them as regular shell environment variables (e.g. in `~/.zshrc`) instead of using `settings.json`.
 
 ### Summon
 
