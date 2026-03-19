@@ -51,6 +51,7 @@ Use `/gap-analysis` to get a current prioritized view of what's spec'd vs built.
 ## Skill Development Conventions
 
 - Each skill lives in `skills/<name>/` with a `SKILL.md` containing YAML frontmatter (name, description, triggers, `user_invocable: true`)
+- **Skill names must be lowercase and hyphenated** (e.g. `write-poc`, `gc-cartography`) — no spaces, no capitals. The `name` field in SKILL.md frontmatter and the directory name must both follow this format. This matches the Claude Code skill spec: only lowercase letters, numbers, and hyphens are allowed (max 64 characters).
 - Skills use numbered-step workflows with explicit human confirmation points
 - Supporting material goes in `references/` and `examples/` subdirectories
 - All skills produce concrete artifacts (GRIMOIRE.md, cartography files, PoC scripts)

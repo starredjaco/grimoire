@@ -1,5 +1,5 @@
 ---
-name: Librarian Clean Cache
+name: librarian-clean-cache
 description: >-
   Use this skill when the user says "clean librarian cache", "clear librarian
   cache", "clean up librarian repos", "prune librarian cache", "shrink librarian

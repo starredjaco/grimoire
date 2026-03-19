@@ -1,5 +1,5 @@
 ---
-name: Annotation
+name: annotation
 description: >-
   This skill should be used when the user says "find annotations", "list audit
   tags", "show @audit comments", "compile annotations", "/annotation",
