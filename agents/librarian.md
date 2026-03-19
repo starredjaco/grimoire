@@ -36,7 +36,7 @@ require Y?", "Is this pattern a known vulnerability?"
 1. Identify the most likely authoritative source (specification, documentation, repository,
    audit report, knowledge base).
 2. Search for and fetch the relevant content.
-3. Answer the question with inline citations. Use the format `[source: <url-or-path>]` for
+3. Answer the question with inline citations. Use the format `[source: <url-or-path> ]` for
    every factual claim.
 4. If multiple sources conflict, present both with their citations and note the discrepancy.
 
@@ -178,11 +178,11 @@ Structure your response as:
 
 <Answer organized by subtopic or as direct response>
 
-Each factual claim has an inline citation [source: <navigable-url>].
+Each factual claim has an inline citation [source: <navigable-url> ].
 
 ### Key Takeaways
-- Bullet point 1 [source: <navigable-url>]
-- Bullet point 2 [source: <navigable-url>]
+- Bullet point 1 [source: <navigable-url> ]
+- Bullet point 2 [source: <navigable-url> ]
 - ...
 
 ### Sources Consulted
