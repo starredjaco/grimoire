@@ -44,11 +44,19 @@ Though not implemented yet we're actively researching efficient information retr
 
 ### Initialize
 
-The user can use the `librarian-initialize` skill to automatically setup the library directory with an empty libraries yaml file.
+The user can use the `librarian-initialize` skill to automatically setup the library directory with an empty libraries yaml file and an empty cache directory. 
+
+The initialize skill also helps you upgrade in the future. The skill will automatically identify existing librarian initializations and upgrade the existing structure where necessary.
 
 ### Add Library
 
-The user can use the `modify-library` skill to add, remove or change a library.
+The user can use the `modify-library` skill to add, remove or change a library. This single skill will trigger whenever you ask the librarian to change the grimoire libraries.
+
+You can add different types of libraries, for example:
+* git
+* symlink 
+
+The skill will automatically validate that the references provided point to a valid repository / directory / etc.
 
 ## Sources
 
