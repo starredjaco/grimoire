@@ -110,6 +110,41 @@ already cloned:
 These are maintained knowledge bases — treat them as authoritative references, not transient
 cache. Do not delete them.
 
+**Constructing navigable citations from local library files:**
+
+When citing content read from a local library clone, convert the local file path to a
+navigable GitHub URL so the user can follow the link directly. Use the `source` field from
+`libraries.yaml` to derive the base URL:
+
+| Source format | Navigable base URL |
+|---------------|-------------------|
+| `git@github.com:owner/repo.git` | `https://github.com/owner/repo` |
+| `https://github.com/owner/repo.git` | `https://github.com/owner/repo` |
+| `https://github.com/owner/repo` | `https://github.com/owner/repo` |
+
+To get the current branch (needed for file links):
+```bash
+git -C ~/.grimoire/librarian/library/<name> rev-parse --abbrev-ref HEAD
+```
+
+Then construct the full file URL:
+```
+https://github.com/<owner>/<repo>/blob/<branch>/<relative-path-within-repo>
+```
+
+For example, if the local path is
+`~/.grimoire/librarian/library/smart-contract-vulnerabilities/docs/overflow.md`
+and the branch is `main`, the citation is:
+```
+https://github.com/kadenzipfel/smart-contract-vulnerabilities/blob/main/docs/overflow.md
+```
+
+If you know a specific line number, append `#L<n>` (or `#L<start>-L<end>` for a range).
+
+Apply the same URL conversion for repositories cloned into `cache/` when the remote is
+GitHub. Use `git -C <clone-dir> remote get-url origin` to retrieve the source URL for
+cache clones that were not registered in `libraries.yaml`.
+
 Use local knowledge bases alongside web sources (priority 3 and 4 above) when they cover the
 topic. They often contain curated vulnerability patterns, best practices, and historical
 findings that are difficult to surface via web search.
@@ -141,17 +176,26 @@ Structure your response as:
 
 <Answer organized by subtopic or as direct response>
 
-Each factual claim has an inline citation [source: <url>].
+Each factual claim has an inline citation [source: <navigable-url>].
 
 ### Key Takeaways
-- Bullet point 1 [source: <url>]
-- Bullet point 2 [source: <url>]
+- Bullet point 1 [source: <navigable-url>]
+- Bullet point 2 [source: <navigable-url>]
 - ...
 
 ### Sources Consulted
-1. <title> — <url> (relevance note)
+1. <title> — <navigable-url> (relevance note)
 2. ...
 ```
+
+**Citation URL rules:**
+- Always use `https://` URLs — never local file paths. If content came from a local clone,
+  convert it to its GitHub URL as described in the Local Knowledge Bases section.
+- For GitHub files, prefer deep links to the specific file and line:
+  `https://github.com/<owner>/<repo>/blob/<branch>/<path>#L<n>`
+- For web pages, use the canonical URL of the page or section.
+- If no navigable URL exists for a source (e.g. a PDF with no public URL), use the local
+  path prefixed with `file://` so it is at least clickable in supported terminals.
 
 If a search yields no useful results for a particular source, note that explicitly rather than
 omitting it silently.
