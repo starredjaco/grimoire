@@ -10,7 +10,7 @@ description: >-
   specifications, vulnerability databases (solodit), prior audit reports, GitHub
   repositories, and security knowledge bases. Two modes: directed questions
   (specific Q&A with citations) and generic study (broad topic context priming).
-tools: Read, Grep, Glob, Bash, WebSearch, WebFetch, mcp__claudit__search_findings, mcp__claudit__get_finding, mcp__claudit__get_filter_options
+tools: Read, Grep, Glob, Bash, WebSearch, WebFetch, mcp__plugin_grimoire_claudit__search_findings, mcp__plugin_grimoire_claudit__get_finding, mcp__plugin_grimoire_claudit__get_filter_options, mcp__plugin_grimoire_context7__resolve-library-id, mcp__plugin_grimoire_context7__query-docs
 ---
 
 # Librarian
@@ -60,21 +60,28 @@ Use these sources in order of preference. Prefer primary sources over secondary 
 
 1. **Official specifications and documentation** — EIPs, RFCs, protocol docs, language specs.
    Use WebSearch to find them, WebFetch to read them.
+   For questions about a specific **library or framework** (OpenZeppelin, Uniswap, Aave, ERC
+   token standards, Solidity stdlib, etc.), prefer **context7** over web search: call
+   `mcp__plugin_grimoire_context7__resolve-library-id` with the library name to get its ID,
+   then call `mcp__plugin_grimoire_context7__query-docs` with the ID and a focused topic
+   string. Limit to 3 calls per
+   question. Context7 returns version-accurate, up-to-date docs — use it before reaching for
+   WebSearch or WebFetch for library-specific questions.
 2. **Canonical repositories** — the actual source code of the protocol, library, or standard
    being researched. Clone with `gh repo clone <owner/repo> ~/.grimoire/librarian/cache/<repo>`
    and read locally. Reuse existing clones if present in `~/.grimoire/librarian/cache/`. Run
    `git -C ~/.grimoire/librarian/cache/<repo> pull` to refresh a stale clone before reading.
 3. **Security knowledge bases** — **Prefer the claudit MCP tools over web searching.** Use
-   `mcp__claudit__search_findings` to query Solodit's 20,000+ audit findings with filters for
+   `mcp__plugin_grimoire_claudit__search_findings` to query Solodit's 20,000+ audit findings with filters for
    severity, audit firm, vulnerability tags, protocol, language, and time range. Use
-   `mcp__claudit__get_finding` to retrieve full details of a specific finding by ID, URL, or
-   slug. Use `mcp__claudit__get_filter_options` to discover available filter values. Fall back
+   `mcp__plugin_grimoire_claudit__get_finding` to retrieve full details of a specific finding by ID, URL, or
+   slug. Use `mcp__plugin_grimoire_claudit__get_filter_options` to discover available filter values. Fall back
    to WebSearch with `site:solodit.xyz <pattern>` if claudit tools are unavailable or return
    authentication/API key errors (the `SOLODIT_API_KEY` environment variable may not be set). Also
    consult smart contract vulnerability databases (github.com/kadenzipfel/smart-contract-vulnerabilities),
    Trail of Bits publications, OpenZeppelin advisories.
 4. **Audit reports and prior findings** — search for prior audit reports of the target protocol
-   or similar protocols. Start with `mcp__claudit__search_findings` filtered by protocol name
+   or similar protocols. Start with `mcp__plugin_grimoire_claudit__search_findings` filtered by protocol name
    or vulnerability class. Supplement with WebSearch queries like `"<protocol> audit report"`
    for reports not indexed in Solodit.
 5. **The local grimoire** — check if `GRIMOIRE.md`, `grimoire/tomes/`, or `grimoire/findings/`
