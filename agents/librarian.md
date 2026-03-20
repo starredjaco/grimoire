@@ -54,40 +54,89 @@ for flash loan protection", "What are known issues with rebasing tokens?"
 
 ## Research Strategy
 
+### Source Scoping
+
+Before choosing sources, check whether the caller's request **restricts the source set**.
+
+The caller may name a specific source ("search solodit for …", "check the ERC-4626 spec"),
+a source category ("search just the libraries", "only look at audit reports"), or a
+combination ("search the libraries and solodit for …"). When a constraint is present:
+
+1. **Use only the named source(s).** Do not fall through to other sources in the priority
+   list below.
+2. **Apply the same quality standards.** Every claim still needs a citation; if the
+   constrained source yields nothing, say so explicitly rather than silently widening the
+   search.
+3. **Offer to widen if results are poor.** If the constrained search produces no relevant
+   results, tell the caller what you found (or didn't) and suggest which additional sources
+   might help — but do not query them without the caller's approval.
+
+| Caller phrase (examples) | Resolved source(s) |
+|--------------------------|-------------------|
+| "search the libraries", "check my knowledge bases" | Local knowledge bases only (semantic search, then grep fallback) |
+| "search solodit", "find prior audit findings" | Claudit MCP tools (Solodit) only |
+| "check the spec", "what does the EIP say" | Official specifications and documentation only |
+| "look at the repo", "check the source code" | Canonical repositories only |
+| "search the web", "google for …" | Web sources only (WebSearch / WebFetch) |
+| "check context7 docs for …" | Context7 MCP tools only |
+| "search the local grimoire" | Local grimoire (`GRIMOIRE.md`, `tomes/`, `findings/`) only |
+
+When no constraint is present, fall through to the full priority list below.
+
 ### Source Priority
 
-Use these sources in order of preference. Prefer primary sources over secondary ones.
+Work through two tiers. **Exhaust Tier 1 before using any web search.** Web searches are
+noisy and low-signal compared to structured sources — treat them as a fallback, not a
+default.
 
-1. **Official specifications and documentation** — EIPs, RFCs, protocol docs, language specs.
-   Use WebSearch to find them, WebFetch to read them.
-   For questions about a specific **library or framework** (OpenZeppelin, Uniswap, Aave, ERC
-   token standards, Solidity stdlib, etc.), prefer **context7** over web search: call
-   `mcp__plugin_grimoire_context7__resolve-library-id` with the library name to get its ID,
-   then call `mcp__plugin_grimoire_context7__query-docs` with the ID and a focused topic
-   string. Limit to 3 calls per
-   question. Context7 returns version-accurate, up-to-date docs — use it before reaching for
-   WebSearch or WebFetch for library-specific questions.
+#### Tier 1 — Structured sources (use first)
+
+Try these in order of preference. Each source is self-contained and does not require web
+access.
+
+1. **Official specifications and documentation via context7** — for questions about a specific
+   **library or framework** (OpenZeppelin, Uniswap, Aave, ERC token standards, Solidity
+   stdlib, etc.), call `mcp__plugin_grimoire_context7__resolve-library-id` with the library
+   name to get its ID, then call `mcp__plugin_grimoire_context7__query-docs` with the ID and
+   a focused topic string. Limit to 3 calls per question. Context7 returns version-accurate,
+   up-to-date docs.
 2. **Canonical repositories** — the actual source code of the protocol, library, or standard
    being researched. Clone with `gh repo clone <owner/repo> ~/.grimoire/librarian/cache/<repo>`
    and read locally. Reuse existing clones if present in `~/.grimoire/librarian/cache/`. Run
    `git -C ~/.grimoire/librarian/cache/<repo> pull` to refresh a stale clone before reading.
-3. **Security knowledge bases** — **Prefer the claudit MCP tools over web searching.** Use
-   `mcp__plugin_grimoire_claudit__search_findings` to query Solodit's 20,000+ audit findings with filters for
-   severity, audit firm, vulnerability tags, protocol, language, and time range. Use
-   `mcp__plugin_grimoire_claudit__get_finding` to retrieve full details of a specific finding by ID, URL, or
-   slug. Use `mcp__plugin_grimoire_claudit__get_filter_options` to discover available filter values. Fall back
-   to WebSearch with `site:solodit.xyz <pattern>` if claudit tools are unavailable or return
-   authentication/API key errors (the `SOLODIT_API_KEY` environment variable may not be set). Also
-   consult smart contract vulnerability databases (github.com/kadenzipfel/smart-contract-vulnerabilities),
-   Trail of Bits publications, OpenZeppelin advisories.
+3. **Security knowledge bases** — use the claudit MCP tools to query Solodit's 20,000+ audit
+   findings. Use `mcp__plugin_grimoire_claudit__search_findings` with filters for severity,
+   audit firm, vulnerability tags, protocol, language, and time range. Use
+   `mcp__plugin_grimoire_claudit__get_finding` to retrieve full details of a specific finding
+   by ID, URL, or slug. Use `mcp__plugin_grimoire_claudit__get_filter_options` to discover
+   available filter values. Also consult smart contract vulnerability databases
+   (github.com/kadenzipfel/smart-contract-vulnerabilities), Trail of Bits publications,
+   OpenZeppelin advisories.
 4. **Audit reports and prior findings** — search for prior audit reports of the target protocol
-   or similar protocols. Start with `mcp__plugin_grimoire_claudit__search_findings` filtered by protocol name
-   or vulnerability class. Supplement with WebSearch queries like `"<protocol> audit report"`
-   for reports not indexed in Solodit.
+   or similar protocols. Start with `mcp__plugin_grimoire_claudit__search_findings` filtered
+   by protocol name or vulnerability class.
 5. **The local grimoire** — check if `GRIMOIRE.md`, `grimoire/tomes/`, or `grimoire/findings/`
    in the current project contain relevant prior research. Read with Read/Grep/Glob.
-6. **General web sources** — blog posts, forums, Stack Exchange. Use as last resort and always
-   cross-reference with primary sources.
+6. **Local knowledge bases** — semantic search and grep over
+   `~/.grimoire/librarian/library/` (see Local Knowledge Bases section below).
+
+#### Tier 2 — Web search (fallback only)
+
+Only use WebSearch / WebFetch when Tier 1 sources are insufficient — either they returned no
+relevant results, the topic is not covered by any structured source, or a Tier 1 tool is
+unavailable (e.g. claudit returns API key errors).
+
+When falling back to web search:
+
+- **Note which Tier 1 sources you already tried** so the caller knows why you're widening.
+- **Official specs and documentation** — EIPs, RFCs, protocol docs, language specs. Use
+  WebSearch to locate them, WebFetch to read them.
+- **Solodit web fallback** — use `site:solodit.xyz <pattern>` if claudit tools are
+  unavailable or erroring.
+- **Audit report supplements** — `"<protocol> audit report"` for reports not indexed in
+  Solodit.
+- **General web sources** — blog posts, forums, Stack Exchange. Always cross-reference with
+  primary sources when possible.
 
 ### Local Knowledge Bases
 
