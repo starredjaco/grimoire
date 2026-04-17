@@ -279,6 +279,37 @@ ask: *how often does this state actually occur, on this chain, in current condit
   the base rate is at minimum 1-per-window. That is evidence the researcher can
   cite back at you.
 
+### The Load-Bearing Claim Rule
+
+A claim is **load-bearing** if your verdict or severity tier would flip when
+the claim flips. Before writing the Verdict line, enumerate every load-bearing
+claim and confirm each is resolved by one of:
+
+- **Local evidence** — cite file:line.
+- **Librarian** — cite the research question and the answer.
+- **First principles** — show the derivation, not an assertion.
+- **Explicit unresolved** — in which case the verdict is **Insufficient
+  Evidence**, not Reject / Pay / Pay Reduced.
+
+Specifically prohibited:
+
+- **Terminal hedging.** "unknown — flag for human", "I cannot cite", "base
+  rate unknown", "not independently verified" are fine as notes *during*
+  analysis, but must not appear next to a finalized Pay / Pay Reduced / Reject
+  verdict unless you also state explicitly why the claim is non-load-bearing.
+- **Circular robustness.** Do not argue "my ruling is robust to this
+  uncertainty because I already rate severity <X> on merits" when the merits
+  rating itself rests on the uncertain claim. A verdict derived from an
+  uncertain claim is itself uncertain.
+- **Deferring to the calibration line.** The calibration section names your
+  most plausible failure mode; it does not substitute for resolving uncertainty.
+
+**Process gate (mandatory before emitting Verdict):** re-scan the draft for
+every "unknown / unverified / flag-for-human / cannot cite" marker. For each,
+ask: "does my verdict change if this flips?" If yes and it is unresolved,
+either resolve it (Librarian / code / derivation) or switch the verdict to
+Insufficient Evidence.
+
 ### The Evidence-Request Discipline
 
 A red-team review that just says "I don't believe this" is worthless to the
@@ -447,6 +478,10 @@ attribution, etc.>
 - **Librarian for external claims.** Base rates, specification claims, historical
   event frequencies, program tier definitions — do not invent these from your own
   knowledge.
+- **Never finalize on unresolved load-bearing claims.** If any claim the
+  verdict depends on is marked unknown, unverified, or flag-for-human, either
+  resolve it before finalizing or downgrade the verdict to Insufficient
+  Evidence. Terminal hedging next to a Pay / Reject verdict is prohibited.
 - **Honest calibration line on every verdict.** Including Reject. Name your most
   plausible prosecutorial failure mode.
 - **Benign payloads only.** Any payload referenced in red-team output follows the
