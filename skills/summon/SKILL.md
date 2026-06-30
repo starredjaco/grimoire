@@ -5,10 +5,14 @@ description: >-
   "/summon", "initialize grimoire", "start an audit", "begin security review",
   "set up audit workspace", "kick off security research", "scope a codebase",
   "map a codebase for security", "prepare for an audit", or wants to initialize
-  Grimoire on a new codebase. This is the first skill run on a new engagement.
-  It builds initial context, creates the audit workspace structure, and produces
-  GRIMOIRE.md — the living contextual map that primes all future agent
-  interactions for security research.
+  Grimoire on a new codebase. Also use it when invoked with a bug-bounty program
+  URL or slug (e.g. "/summon immunefi.com/bug-bounty/<program>", "summon from a
+  bug bounty program", "set up from an Immunefi/Cantina program", "fetch the
+  scope and clone the repos") — in that case it first fetches the program scope
+  and clones the in-scope repositories before initializing. This is the first
+  skill run on a new engagement. It builds initial context, creates the audit
+  workspace structure, and produces GRIMOIRE.md — the living contextual map that
+  primes all future agent interactions for security research.
 user_invocable: true
 ---
 
@@ -30,6 +34,7 @@ When this skill is activated, create a todo list from the following steps. Mark 
 in_progress before starting it and completed when done.
 
 ```
+- [ ] 0. Acquire target from bug bounty program — fetch scope, resolve & clone in-scope repos  (ONLY if invoked with a program URL/slug)
 - [ ] 1. Verify workspace layout — confirm directory structure, identify in-scope repo(s)
 - [ ] 2. Create audit directory structure — set up grimoire/, findings/, spells/, tomes/
 - [ ] 3. Build initial context — language, tooling, frameworks, integrations, problem & approach
@@ -44,7 +49,59 @@ in_progress before starting it and completed when done.
 
 ---
 
+### 0. Acquire Target from a Bug Bounty Program
+
+**Run this step only when summon is invoked with a bug-bounty program URL or slug** (e.g.
+`/summon immunefi.com/bug-bounty/<program>`). If invoked with no argument, or with a local path,
+skip directly to Step 1.
+
+The goal is narrow: turn a program URL into (1) the in-scope source repositories cloned at their
+pinned commits and (2) a `scope/bounty-program.md` capturing assets, impacts, and rules. The rest
+of the workflow then runs normally, with Crown Jewels (Step 5) and Scope Constraints (Step 5b)
+pre-seeded from the program data.
+
+Consult `references/bounty-platforms.md` for the host→handler map, per-platform scope locations
+(Immunefi, Cantina), the generic fallback, and asset-resolution rules.
+
+**0a. Detect platform.** Normalize the argument (full URL, `host/path`, or bare host + slug) to a
+canonical program URL and identify the platform by host (Immunefi / Cantina / generic).
+
+**0b. Fetch scope.** Use `WebFetch` against the platform's scope and rules pages with a targeted
+extraction prompt. Extract: program name; **assets in scope** (each: identifier/URL, type, pinned
+ref + subpath if shown, tier); **impacts in scope** by severity; **out-of-scope** assets/impacts;
+**rules / prohibited actions / KYC**; reward tiers; source URL + fetch date. These pages are
+JavaScript-rendered — if the fetch returns no usable scope (Cloudflare, login wall, empty shell),
+**do not fabricate scope**: ask the user to paste the scope text or supply the in-scope repo URLs
+and commits directly.
+
+**0c. Establish project root.** If the current directory is not already a suitable project dir,
+create `<program-slug>/` under cwd and treat it as the project root for everything that follows.
+Warn if cwd appears to be inside an existing repo (same reasoning as Step 1).
+
+**0d. Resolve assets → repos.** Parse asset URLs into `{repo_url, ref, subpath}` and dedupe by
+`(repo_url, ref)`. Separate **cloneable** git repos from **non-cloneable** assets (deployed
+contract addresses, live web/infra targets) — the latter are recorded but have no local source.
+
+**0e. Confirm & clone.** Present the resolved asset list (cloneable repos with pinned refs, plus
+non-cloneable assets). Cloning is a side-effecting operation — get explicit user approval, and let
+the user deselect repos (bounty repos can be large). On approval, run `scripts/clone-assets.sh`
+from the project root, passing approved entries as `<repo_url>@<ref>` tokens (or via
+`--from-file`). Report what cloned, skipped, and failed.
+
+**0f. Write scope materials.** Create the `scope/` directory and write `scope/bounty-program.md`
+capturing the fetched data — assets (cloneable and non-cloneable), impacts by severity,
+out-of-scope items, rules/prohibited actions, KYC, reward tiers, and the source URL + fetch date.
+Steps 5 and 5b read this file.
+
+After Step 0 completes, continue to Step 1. The workspace layout is now satisfied (project root
+created, repos cloned, `scope/` populated), so Step 1 is largely a confirmation.
+
+---
+
 ### 1. Verify Workspace Layout
+
+> If Step 0 ran, the project root was created, the in-scope repos were cloned, and `scope/` was
+> populated — this step is then just a confirmation that the cloned repos match the program scope.
 
 Check the current working directory. The ideal layout is:
 
@@ -94,7 +151,8 @@ Documents in `grimoire/tomes/` are cross-linked from GRIMOIRE.md using Obsidian-
 Optionally create if the user indicates they have relevant materials:
 ```
     meeting_notes/              # context from client meetings
-    scope/                      # scope documentation from client
+    scope/                      # scope documentation from client (Step 0 populates this
+                                #   with bounty-program.md when summoned from a bounty URL)
 ```
 
 Do not overwrite existing directories or files.
@@ -148,6 +206,10 @@ analysis belongs in `grimoire/tomes/` and will happen during the actual research
 Determine what matters most from a security perspective. In the end, we care about bugs that have
 **impact**. Crown jewels are the assets and capabilities that attackers would target.
 
+If Step 0 ran, seed this assessment from the program's **impacts in scope** (in
+`scope/bounty-program.md`) — the bounty's severity-ranked impacts are an explicit statement of
+what the program values most. Map each in-scope impact to the asset and code location it targets.
+
 **Common crown jewels by domain:**
 - **Smart contracts:** funds, governance control, oracle manipulation, protocol invariants
 - **Web applications:** user accounts, authentication tokens, PII, payment data, admin access
@@ -170,7 +232,8 @@ GRIMOIRE.md is living memory.
 
 Scope constraints are what the familiar agent uses to decide whether a finding is in or out
 of bounds. Capture them structurally, not as prose. Read any materials the user pointed you
-at (`scope/`, `meeting_notes/`, or client-provided docs) and extract:
+at (`scope/`, `meeting_notes/`, or client-provided docs) — including `scope/bounty-program.md`
+when Step 0 ran — and extract:
 
 - **Capability assumptions** — statements that bound what a privileged actor *can do*.
   These foreclose findings whose attack path falls strictly within the granted capability.
@@ -184,6 +247,12 @@ at (`scope/`, `meeting_notes/`, or client-provided docs) and extract:
 - **Protocol invariants** — properties the scope claims are maintained. These are useful
   targets: an exploit that breaks an invariant is a valid finding even when the attacker
   is nominally in scope.
+
+When summoned from a bounty program, map the fetched fields onto this taxonomy: in-scope/
+out-of-scope **assets and impacts** become the In-scope / Out-of-scope lists (cite the program as
+source); **prohibited actions and program rules** become capability or trust constraints (a rule
+that bounds what a privileged actor may do is a capability assumption; a rule describing expected
+honest behavior is trust); record **KYC** requirements as a note in the Scope section.
 
 When a clause is ambiguous, classify it as **trust** (the weaker claim). This errs toward
 surfacing findings rather than silently dismissing them.
@@ -212,6 +281,7 @@ Assemble findings from steps 3-5 into `GRIMOIRE.md` at the project root. This fi
 - **Build/Test:** [build system, test framework]
 - **Frameworks:** [key frameworks/libraries]
 - **Integrations:** [external systems]
+- **Bounty:** [platform + program URL + reward tiers — only if summoned from a bounty program]
 
 ## Problem & Approach
 
@@ -219,7 +289,8 @@ Assemble findings from steps 3-5 into `GRIMOIRE.md` at the project root. This fi
 
 ## Scope
 
-- **In-scope:** [paths / contracts / components covered by this engagement]
+- **In-scope:** [paths / contracts / components covered by this engagement; for bounty programs,
+  note the cloned repo(s) and pinned commit(s)]
 - **Out-of-scope:** [explicit exclusions, with source]
 
 ### Capability assumptions (foreclose within granted capability)
